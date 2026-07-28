@@ -15,14 +15,14 @@ const posts = (await getCollection('blog')).sort(
 <html lang="en">
 	<head>
 		<BaseHead
-			title={`Writing | ${SITE_TITLE}`}
+			title={`Blog | ${SITE_TITLE}`}
 			description="Notes on building AI software and agents that hold up in production."
 		/>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>Writing</h1>
+			<h1>Blog</h1>
 			<ul class="posts">
 				{
 					posts.map((post) => (
@@ -58,6 +58,9 @@ const posts = (await getCollection('blog')).sort(
 		margin: 0.15em 0 0.35em 0;
 		font-size: 1.4em;
 		line-height: 1.25;
+		/* Post titles in a list stay regular weight; only section headings go bold. */
+		font-weight: 400;
+		letter-spacing: normal;
 	}
 	.posts h2 a {
 		color: rgb(var(--black));
