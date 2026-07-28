@@ -2,6 +2,11 @@
 import { SITE_TITLE } from '../consts';
 
 const today = new Date();
+
+const socials = [
+	{ name: 'LinkedIn', href: 'https://www.linkedin.com/in/eugenelopin/', label: 'in' },
+	{ name: 'X', href: 'https://x.com/AIScaleDev', label: 'X' },
+];
 ---
 
 <footer>
@@ -10,6 +15,16 @@ const today = new Date();
 		<a href="/blog">Writing</a>
 		<a href="/about">About</a>
 		<a href="/rss.xml">RSS</a>
+	</p>
+	<p class="socials">
+		{
+			socials.map((s) => (
+				<a href={s.href} target="_blank" rel="me noopener" aria-label={s.name} title={s.name}>
+					{/* Placeholder icon: a labelled tile. Swap for real brand SVGs later. */}
+					<span class="icon" aria-hidden="true">{s.label}</span>
+				</a>
+			))
+		}
 	</p>
 </footer>
 <style>
@@ -33,5 +48,31 @@ const today = new Date();
 	}
 	.links a:hover {
 		color: rgb(var(--gray-dark));
+	}
+	.socials {
+		display: flex;
+		justify-content: center;
+		gap: 0.75em;
+		margin-top: 1em;
+	}
+	.socials a {
+		display: inline-flex;
+	}
+	.icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2em;
+		height: 2em;
+		border-radius: 8px;
+		border: 1px solid rgb(var(--gray-light));
+		color: rgb(var(--gray));
+		font-size: 0.85em;
+		font-weight: 700;
+		line-height: 1;
+	}
+	.socials a:hover .icon {
+		color: rgb(var(--gray-dark));
+		border-color: rgb(var(--gray));
 	}
 </style>

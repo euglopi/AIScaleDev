@@ -33,3 +33,4 @@ Posts: src/content/blog/*.mdx, schema in src/content.config.ts.
 Astro-only — no React islands except a contact form on /work.
 Homepage = positioning, not a post feed.
 Default blog template is a placeholder; replace, don't extend.
+Typeface: Inter only, matching Vercel's Next.js blog-starter (decided Jul 28 2026). Self-hosted via Astro's `fonts` config with `fontProviders.google()`; latin subset, variable 400-700. Replaced the template's Atkinson.
