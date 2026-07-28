@@ -23,6 +23,7 @@ Consult these guides before working on related tasks:
 
 ## Project: AIScale.dev
 Blog + consulting site. Astro static, MDX, Tailwind.
+Blog subject: firsthand AI software and agent engineering learnings. Specific, from real builds. No generic AI commentary.
 Deploy: Vercel. DNS: Cloudflare, DNS-only (no proxy).
 Brand: AIScale.dev. Repo: AIScaleDev. Local: ~/code/aiscaledev.
 Posts: src/content/blog/*.mdx, schema in src/content.config.ts.

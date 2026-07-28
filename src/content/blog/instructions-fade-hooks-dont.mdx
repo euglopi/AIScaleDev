@@ -1,0 +1,67 @@
+---
+title: 'Your CLAUDE.md fades. A hook does not.'
+description: 'A style instruction that worked at the top of a session quietly stopped working two hours in. The fix was not better wording. It was firing the same instruction on every turn.'
+pubDate: 'Jul 28 2026'
+---
+
+I am not a developer by training, so I want Claude Code to explain its work in plain English rather than developer-speak. [JJ Englert](https://x.com/JJEnglert) posted a `CLAUDE.md` rewrite that does exactly that, and I dropped it into my setup.
+
+It worked. For a while.
+
+Partway into a long session, every answer had drifted back into jargon. Not gradually enough to notice in any single reply, but unmistakable once I scrolled up and compared the first answer to the twentieth.
+
+## The instruction was still there. It just was not landing.
+
+`CLAUDE.md` is loaded once, at the start of a session, and pinned near the top of the context. That is the whole mechanism. It is a memo handed over on the way in.
+
+Two hours and a hundred tool calls later, that memo is buried under file contents, command output, diffs, and search results. It has not been deleted. It is simply no longer the most recent thing the model read, and recency does a lot of work in how strongly an instruction is followed.
+
+So the drift was not the model ignoring my instruction. It was my instruction losing a competition against everything that arrived after it.
+
+## The fix: re-send it on every turn
+
+Claude Code has hooks, which are commands the tool itself runs at fixed points. A `UserPromptSubmit` hook fires each time I send a message, and whatever it prints gets injected into that turn's context.
+
+That makes it a way to move an instruction from "read once at the start" to "read immediately before every single answer." My whole hook is one `printf` in `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s' '{\"hookSpecificOutput\":{\"hookEventName\":\"UserPromptSubmit\",\"additionalContext\":\"REPLY STYLE for the answer you are about to write. Open with a line that literally starts with Net: ... EVERY line including the bullets must stand alone in everyday words a non-technical beginner gets on one read. The usual failure is a plain headline followed by jargon bullets, so re-read the bullets specifically before sending. No em dashes. No preamble. Cut any line not carrying weight.\"}}}'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+No cleverness in it. The same checklist, arriving fresh every turn, at the position where it actually competes.
+
+The drift stopped. Not "improved" and not "mostly held up" through a long refactor. Stopped.
+
+## Two things this proves
+
+**Repetition beats placement.** I spent my first few attempts rewriting the instruction: stronger wording, more emphasis, an ALL CAPS line. All of it was optimizing the memo. None of it addressed the fact that the memo gets read once. An instruction that fires on every turn survives a long session; one that fires once does not, no matter how well written it is.
+
+**Demand a format, not a mood.** The version that failed said "write for a beginner with no technical background." True, well intentioned, and impossible to check. The version that holds says start the reply with the literal word `Net:`. Either the first characters are `Net:` or they are not. There is no interpretation gap to drift through.
+
+That second one surprised me more than the first. I had assumed the checkable rule survived because it was repeated. It also survives because it can be verified at a glance, by the model and by me. Wherever I have a rule that is a vibe, I now try to find the version of it that is a shape.
+
+## Where this generalizes
+
+The pattern is not about `CLAUDE.md` specifically. Any instruction you place once and expect to hold across a long agent run has the same problem. If you care whether it holds, ask two questions:
+
+1. Does it arrive close to the moment it needs to apply, or once at the beginning?
+2. Could someone tell, by looking, whether it was followed?
+
+If the answer to either is no, that is where the drift comes from, and the wording is not the thing to fix.
+
+---
+
+Original posts: [on X](https://x.com/AIScaleDev/status/2082123120123498945) and [on LinkedIn](https://www.linkedin.com/posts/eugenelopin_thanks-to-jjenglert-on-x-httpslnkdin-share-7487884713614045184-MNHr/). Credit to [JJ Englert](https://x.com/JJEnglert) for the original `CLAUDE.md` rewrite.
