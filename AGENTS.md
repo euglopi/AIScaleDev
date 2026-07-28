@@ -24,7 +24,7 @@ Consult these guides before working on related tasks:
 ## Project: AIScale.dev
 Blog + consulting site. Astro static, MDX, Tailwind.
 Blog subject: firsthand AI software and agent engineering learnings. Specific, from real builds. No generic AI commentary.
-Deploy: Vercel. DNS: Cloudflare, DNS-only (grey cloud, no proxy). Cloudflare SSL/TLS mode must be Full (strict).
+Deploy: Vercel. DNS: Cloudflare, DNS-only (grey cloud, no proxy) so Vercel terminates SSL. With grey cloud the Cloudflare SSL/TLS mode does not apply. LIVE at https://aiscale.dev since Jul 28 2026 (Let's Encrypt cert via Vercel).
 Apex aiscale.dev belongs to the blog. The Short.io link shortener moves to a subdomain (decided Jul 28 2026).
 Vercel DNS targets (Jul 28 2026): CNAME @ -> e364c7306bdf607c.vercel-dns-017.com and CNAME www -> e364c7306bdf607c.vercel-dns-017.com, both proxy off. www redirects to apex (308) in Vercel.
 Never touch the 3 route*.mx.cloudflare.net MX records or the v=spf1 TXT record: that is live email forwarding.
