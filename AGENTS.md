@@ -20,3 +20,12 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Project: AIScale.dev
+Blog + consulting site. Astro static, MDX, Tailwind.
+Deploy: Vercel. DNS: Cloudflare, DNS-only (no proxy).
+Brand: AIScale.dev. Repo: AIScaleDev. Local: ~/code/aiscaledev.
+Posts: src/content/blog/*.mdx, schema in src/content.config.ts.
+Astro-only — no React islands except a contact form on /work.
+Homepage = positioning, not a post feed.
+Default blog template is a placeholder; replace, don't extend.
