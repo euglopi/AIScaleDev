@@ -28,7 +28,7 @@ Deploy: Vercel. DNS: Cloudflare, DNS-only (grey cloud, no proxy) so Vercel termi
 Apex aiscale.dev belongs to the blog. The Short.io link shortener moves to a subdomain (decided Jul 28 2026).
 Vercel DNS targets (Jul 28 2026): CNAME @ -> e364c7306bdf607c.vercel-dns-017.com and CNAME www -> e364c7306bdf607c.vercel-dns-017.com, both proxy off. www redirects to apex (308) in Vercel.
 Never touch the 3 route*.mx.cloudflare.net MX records or the v=spf1 TXT record: that is live email forwarding.
-Brand: AIScale.dev. Repo: AIScaleDev. Local: ~/code/aiscaledev.
+Brand display name: "AI Scale Dev" (with spaces). Domain/URL stays aiscale.dev. Repo: AIScaleDev. Local: ~/code/aiscaledev.
 Posts: src/content/blog/*.mdx, schema in src/content.config.ts.
 Astro-only — no React islands except a contact form on /work.
 Homepage = positioning, not a post feed.
