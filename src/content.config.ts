@@ -14,6 +14,9 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
+			// Set draft: true to keep a post out of the live build.
+			// Drafts still render in `astro dev` so you can preview them.
+			draft: z.boolean().default(false),
 		}),
 });
 
