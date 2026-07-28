@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "og": "node -e \"require('sharp')('src/assets/og.svg',{density:144}).resize(1200,630).png().toFile('public/og.png')\"",
+    "og": "node scripts/build-og.mjs",
     "astro": "astro"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/vite": "^4.3.3",
+    "@vercel/analytics": "^2.0.1",
     "astro": "^7.1.4",
     "sharp": "^0.35.0",
     "tailwindcss": "^4.3.3"

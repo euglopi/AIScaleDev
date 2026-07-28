@@ -1,0 +1,142 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE, WEB3FORMS_ACCESS_KEY } from '../consts';
+
+const configured = !WEB3FORMS_ACCESS_KEY.startsWith('REPLACE_');
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Contact | ${SITE_TITLE}`} description="Send a note." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Contact</h1>
+			<p>Questions, ideas, or a note about something I wrote? Send it here and I will reply.</p>
+
+			{
+				!configured && (
+					<p class="notice">
+						This form is not connected yet. Get a free key at web3forms.com and paste it into
+						<code>src/consts.ts</code>.
+					</p>
+				)
+			}
+
+			<form id="contact-form">
+				<input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+				<input type="hidden" name="subject" value="New message from AI Scale Dev" />
+				<input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+				<label>
+					Name
+					<input type="text" name="name" required autocomplete="name" />
+				</label>
+				<label>
+					Email
+					<input type="email" name="email" required autocomplete="email" />
+				</label>
+				<label>
+					Message
+					<textarea name="message" rows="6" required></textarea>
+				</label>
+
+				<button type="submit" disabled={!configured}>Send</button>
+				<p id="form-status" role="status" aria-live="polite"></p>
+			</form>
+		</main>
+		<Footer />
+
+		<script>
+			const form = document.getElementById('contact-form') as HTMLFormElement | null;
+			const status = document.getElementById('form-status');
+			form?.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				if (!status) return;
+				status.textContent = 'Sending...';
+				try {
+					const res = await fetch('https://api.web3forms.com/submit', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+						body: JSON.stringify(Object.fromEntries(new FormData(form))),
+					});
+					const data = await res.json();
+					if (data.success) {
+						form.reset();
+						status.textContent = 'Thanks. Your message is on its way.';
+					} else {
+						status.textContent = 'Something went wrong. Please email instead.';
+					}
+				} catch {
+					status.textContent = 'Something went wrong. Please email instead.';
+				}
+			});
+		</script>
+
+		<style>
+			.notice {
+				padding: 0.75em 1em;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 8px;
+				color: rgb(var(--gray-dark));
+				background: rgba(var(--gray-light), 30%);
+			}
+			form {
+				display: flex;
+				flex-direction: column;
+				gap: 1em;
+				max-width: 520px;
+				margin-top: 1.5em;
+			}
+			label {
+				display: flex;
+				flex-direction: column;
+				gap: 0.35em;
+				font-size: 0.9em;
+				color: rgb(var(--gray-dark));
+			}
+			input[type='text'],
+			input[type='email'],
+			textarea {
+				font: inherit;
+				padding: 0.6em 0.7em;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 8px;
+				background: #fff;
+				color: rgb(var(--gray-dark));
+			}
+			input:focus,
+			textarea:focus {
+				outline: 2px solid var(--accent);
+				outline-offset: 1px;
+				border-color: var(--accent);
+			}
+			button {
+				align-self: flex-start;
+				font: inherit;
+				font-weight: 700;
+				padding: 0.6em 1.4em;
+				border: none;
+				border-radius: 8px;
+				background: var(--accent);
+				color: #fff;
+				cursor: pointer;
+			}
+			button:disabled {
+				background: rgb(var(--gray));
+				cursor: not-allowed;
+			}
+			.hidden {
+				display: none;
+			}
+			#form-status {
+				margin: 0;
+				color: rgb(var(--gray-dark));
+			}
+		</style>
+	</body>
+</html>

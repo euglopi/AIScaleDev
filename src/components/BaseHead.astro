@@ -5,6 +5,7 @@ import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import { SITE_TITLE } from '../consts';
 import { Font } from 'astro:assets';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
 	title: string;
@@ -59,3 +60,6 @@ const socialImage = new URL(image?.src ?? '/og.png', Astro.site);
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={socialImage} />
+
+<!-- Vercel Web Analytics (privacy-friendly page counts) -->
+<Analytics />
