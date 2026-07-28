@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "og": "node -e \"require('sharp')('src/assets/og.svg',{density:144}).resize(1200,630).png().toFile('public/og.png')\"",
     "astro": "astro"
   },
   "dependencies": {
