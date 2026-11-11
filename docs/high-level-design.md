@@ -21,6 +21,31 @@ A team of AI agents does the finding, reading, synthesizing, grading, drafting, 
 and tracking every day. The owner sets direction, writes the standards with Claude and approves at set
 points.
 
+### What a page covers
+
+The subject is new ways of building software, shared first-hand by the companies and
+people at the edge: a new system, method or technique. A method's page covers:
+
+1. **What it is,** and who is doing it.
+2. **How it works,** in enough detail to learn from.
+3. **Real results,** where they exist, with how well they are proven.
+4. **What changed in how people work.**
+5. **How to apply it,** wherever the source gives guidance: the source's own guidance,
+   labeled as theirs.
+6. **Where it is heading.**
+
+Studies of whether AI helps appear as evidence on the pages of the methods they measure,
+not as a subject of their own.
+
+### What the owner cares about now
+
+The owner keeps a short list of what he cares about now: current pains or interests, in
+his own words, for example slow automatic checks and releases (CI/CD) now that agents
+write much of the code. The scan, the ranking and the dashboard put the latest solutions
+for those first: the scout favors items that match an active focus, the ranking places
+them at the top, the dashboard shows the newest for each focus, and the scout proposes new
+sources that cover a focus the current sources miss.
+
 ### 2 lanes
 
 - **First look, every day.** New items from the sources are found, ranked and summarized
@@ -71,9 +96,10 @@ the MVP.
 1. **Design and specification**, then the deep research that builds the source list and
    the leading-voices list, then the build.
 2. **The private slice:** the daily scan and the owner's dashboard. Nothing is published on the site.
-3. **The public slice:** graded pages, starting with 1 topic area covered in depth,
-   measuring what works (studies of whether AI helps), pending confirmation by the deep
-   research; then public launch with comments and a newsletter.
+3. **The public slice:** graded pages, then public launch with comments and a newsletter.
+   The first graded pages are not chosen in advance: the first run looks at what frontier
+   companies and leading people are sharing and picks what offers the most value, and the
+   priorities are refined step by step.
    Rules that matter only once pages are public are set before launch.
 
 ## Target Users
@@ -105,8 +131,8 @@ the MVP.
   no tool pages.
 - **Consulting or selling services.**
 - **A public benchmark that ranks AI coding tools or developers.**
-- **Expert opinion on graded pages.** Graded pages report what sources show; advice is
-  labeled as such and kept apart from findings.
+- **Advice of our own.** Pages report what sources show and do; guidance on applying a
+  method is the source's, labeled as theirs, and the site adds none of its own.
 - **A replacement for the source.** Summaries point to sources and never stand in for
   them.
 - **General AI news.** The subject is how software gets built with AI.
@@ -131,7 +157,8 @@ Highest first; when 2 conflict, the higher one wins.
 | **Item** | 1 thing a source published: a post, paper, talk, release or statement |
 | **First look** | The label on a newly found item: published the day it is found, as the source's own claim, not yet checked |
 | **Watching list** | New items that do not meet the bar for a graded page: 1 line and a link each |
-| **Method** | A named way of working that can be tried and measured. Its page carries the grade card |
+| **Method** | A new system, method or technique for building software, shared first-hand by its builders. Its page carries the grade card |
+| **Focus** | 1 entry on the owner's list of what he cares about now, which the scan, ranking and dashboard put first |
 | **Grade card** | The card on a method page: evidence grade, status, who it was tested on, who measured it, measured results, whether it can be repeated, who it fits, and when it was checked |
 | **Synthesis** | Combining what several sources say about 1 method into 1 picture, including where they disagree, without averaging their numbers |
 | **Graded page** | A method page whose grade card has been computed, checked and approved |
@@ -202,10 +229,10 @@ notes when newer data exists.
 |---|---|---|
 | Records | Every record's fields, IDs, files, versions and history | `records` |
 | Agent runs | The roles, their handoffs, where and how they run, the run log, usage | `agent-runs` |
-| Sources | The source registry, its tiers, how each channel is read, the stored copy of every source read | `sources` |
-| Daily scan | Duplicates, ranking, First look summaries, the Watching list, coverage counts | `daily-scan` |
+| Sources | The source registry, its tiers, how each channel is read, the stored copy of every source read, new sources proposed for a focus | `sources` |
+| Daily scan | Duplicates, ranking with active focuses first, First look summaries, the Watching list, coverage counts | `daily-scan` |
 | Checking | The rule-based error catcher and the claim-by-claim checker, used by both lanes | `checking` |
-| Dashboard | The owner's daily view and the owner's desk | `dashboard` |
+| Dashboard | The owner's daily view, the owner's desk, and setting and following his focuses | `dashboard` |
 | Test set | The internal tests, their cases and the publishing gates | `test-set` |
 | Grading | Fact sheets, synthesis across sources, the rule table, the judges' questions, grade cards, the risk score | `grading` |
 | Tracking | Timeline events, newer data, prediction checks, verdicts | `tracking` |
@@ -224,7 +251,8 @@ and the leading-voices list join them.
 
 The records are Source, Item, Scan (1 day's ranked list, Watching list and coverage),
 Method, Fact sheet, Result, Grade card, Timeline event, Person, Prediction, Verdict,
-Piece, Correction or reply, Term (a glossary entry) and Run (1 agent run). Every record
+Piece, Correction or reply, Term (a glossary entry), Run (1 agent run) and Focus (1 entry
+on the owner's list of what he cares about now). Every record
 has a permanent ID made by code, never by a model, and kept separate from the page
 address. A change is a new version with a date, a reason and a source; a replaced result
 stays visible, marked "Replaced". Every stated fact points to its place in a source, and a
@@ -286,14 +314,17 @@ may take.
 ### Pages
 
 Every page reads from short to long: a 1-line answer, a 1-paragraph summary, the grade
-card with its results, the timeline, the detail and the sources. Unfamiliar terms are
+card with its results, then how it works, what changed in how people work, how to apply it
+as the source advises, where it is heading, the timeline, the detail and the sources. Unfamiliar terms are
 explained in plain words first and link to the glossary. Addresses are readable words,
 frozen at first publication and separate from IDs; a merged or renamed page forwards its
 old address for good. Page kinds are topic area, method, daily scan, explainer, glossary
 term, change log and "How this is made", with person, approach and use-case pages after
 the MVP. The site's voice is "we". Every page links to "Correct this or add context".
 
-The dashboard has 5 sections: Today's scan, What moved, Trends, Pieces and Coverage. The
+The dashboard has 6 sections: What I care about now (the latest for each active focus,
+where the owner also adds, edits and pauses focuses), Today's scan, What moved, Trends,
+Pieces and Coverage. The
 owner's desk adds the approval queue with a preview of each draft, the change-course
 signals, usage against the set share, and a way to log anything found elsewhere first.
 
@@ -366,6 +397,8 @@ runs take more than the share of usage the owner set.
 
 ## Open Questions
 
+- **Focus as a record.** Proposed: each focus is saved as its own record kind, so every
+  role can read it, and readers may later set their own.
 - **Daily volume and usage.** How many items about 120 sources produce a day, how many
   repeat the same news, and how much usage a day's runs take.
 - **Readable channels.** Some important channels may not be readable within their terms;
