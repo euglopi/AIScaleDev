@@ -350,6 +350,12 @@ rubric, the rule table, an agent's instructions or the model behind a role rerun
 affected tests first. Pass marks are set from the first private runs, and nothing is
 public before they exist.
 
+**Proofs and models.** TLA+, a tool for checking that a process can never reach a bad
+state or get stuck, models how users move through the site and how a record moves from
+draft to checked to approved to published. Lean, a tool for mathematical proofs that logic
+is correct, is used later, at the feature-build test stage, on pure-logic parts such as the
+grading rules. Both are designed in `test-set` and `grading`.
+
 **The system is judged broken, and rethought that day,** when any change-course signal
 turns on: the owner stops opening the dashboard; the scan keeps missing things found
 elsewhere; the summary test finds wrong claims; or a run stops because usage ran out, or
@@ -364,12 +370,9 @@ runs take more than the share of usage the owner set.
 - **Demand.** Whether experienced engineers want evidence grades is unknown until some see
   them.
 - **Overlap.** Whether someone already does this is unchecked.
-- **Proving the rule table.** Proposed: check every possible combination of facts in the
-  grading rule table, so each gives exactly 1 grade and stronger evidence never gives a
-  lower grade.
-- **Proving a record's path.** Proposed: model the path draft, checked, approved,
-  published as a small state model and check that nothing is published without approval
-  and no draft is stuck forever; written in TLA+ only if a plain test cannot express it.
+- **Testing every rule-table case.** Proposed: from the start, a plain test tries every
+  possible combination of facts in the grading rule table, to show each gives exactly 1
+  grade and stronger evidence never gives a lower grade.
 - **Where private material lives.** Where source copies, records of who sent a reply,
   candidate names and secrets are kept outside the public repository, and whether drafts
   and working records are kept there too. Set in `records` before the first agent run.
