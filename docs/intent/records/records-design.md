@@ -267,7 +267,8 @@ dropped, a person's place on the leading-voices list) never decide that.
 
 **Moves between states.** Code makes every move, and only these: `draft` to `checked`
 (citing a passing checker run); `checked` to `waiting`; `waiting` to `approved` or
-`rejected` (recording the owner's decision); `approved` to `published`; `published` to
+`rejected` (only when the owner merges, from his own GitHub account, the pull request
+carrying the decision); `approved` to `published`; `published` to
 `replaced`; any state to `withdrawn` (on the owner's decision, or on a merge); and back
 from `withdrawn` on the owner's decision. Item, Scan, Result and Fact sheet records go
 from `checked` straight to `published`, with no owner approval. Every other kind reaches
@@ -352,7 +353,8 @@ charts used on its page. Each of these passages points to the sources it rests o
 **Focus.** The owner's wording; when it was set; whether it is active; the topic areas and
 methods it maps to. The scout and the ranking read active focuses to put matching items
 first, the dashboard shows the latest for each, and the scout proposes sources for a focus
-the current sources miss. A focus never appears on the public site.
+the current sources miss. A focus never appears on the public site. Readers may later set
+focuses of their own, which would need an owner field or a kind of their own.
 
 **Fact sheet.** The item and the method; the reader run that filled it; the facts the
 grading rubric asks for (study design, comparison, sample, who measured, how many separate
@@ -458,8 +460,6 @@ whether it is copied with credit or redrawn from its numbers, and the credit lin
    subfolders are enough.
 2. **The source-copies repository.** Its name, access and layout are set when the first
    agent run needs it.
-3. **Focus as a record kind.** Proposed, awaiting the owner's confirmation; readers may later
-   set focuses of their own, which would need their own kind or an owner field.
 
 ## References
 
