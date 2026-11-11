@@ -112,25 +112,33 @@ Rules:
    guesses or fills in a number.
 7. The evidence grade never moves because a result is large or exciting.
 
-## Inclusion bar for a graded page
+## Who gets a page
 
-A method gets its own graded page only when its best source passes all 5 checks. This
-equals evidence grade C or better.
+A method gets its own page when a notable first-hand source from a leading company or
+person describes it. A measured number with a comparison is not needed for a page; the
+grade card says honestly how well the method is proven, and a method that is described
+but not yet measured shows Evidence D with the words "Described, not yet measured". The
+source must pass all 4 page checks:
 
 1. **First-hand:** a named company, lab or person reporting their own work.
 2. **Real work:** used in production or on real tasks, or tested in a controlled study on
    real tasks. A demo or a benchmark score alone does not pass.
-3. **Measured:** at least 1 number with a comparison (before and after, or a control
-   group).
-4. **Described:** enough detail to understand what they did.
-5. **Dated and linked:** a primary source that was opened and read.
+3. **Described:** enough detail to understand what they did and how it works.
+4. **Dated and linked:** a primary source that was opened and read.
 
-- The checks replace "reputable". A famous name does not pass without numbers, and an
-  unknown team with clear numbers does.
-- Independent studies pass even when not run in production, and negative results pass.
-- A company's report on its own work passes, labeled "Builder".
-- Anything new that fails the bar goes on the Watching list of the daily scan: 1 line and
-  a source link, no page, no grade. Statements by leading voices are the exception.
+**Notable, leading source (proposed, to be settled in the `grading` and `sources`
+designs):** the source is a primary-tier source on the source list from a company or lab
+on that list, or the person is on the leading-voices list.
+
+- A famous name alone does not earn a page: the source must describe its own real work.
+- A measured comparison still decides the grade, never whether a page exists.
+- Independent studies count as evidence on the page of the method they measure, whether
+  or not they ran in production, and negative results count.
+- A company's report on its own work counts, labeled "Builder".
+- The Watching list on the daily scan holds new items that are not first-hand, not yet
+  described enough to understand, or known only from secondary reports: 1 line and a
+  source link each, no page, no grade. Statements by leading voices that are not
+  descriptions of real work, such as predictions, follow the leading-voices rules.
 
 ## New claims and First look
 
@@ -150,7 +158,7 @@ it cannot. The same facts always give the same grade.
    carries a pointer to the place in the source it came from. A second agent fills the
    same sheet on its own; any difference goes to the owner.
 2. **Rule (code, no model):** a written rule table turns those facts into the evidence
-   grade, the status, the "who measured" label and the pass or fail on the 5 checks.
+   grade, the status, the "who measured" label and the pass or fail on the page checks.
 3. **Judge (model, bounded):** only what a rule cannot decide: whether the method is
    described well enough to repeat, the headline, whether this is the same method as one
    already listed, how much it matters to readers, and whether a newer result replaces an
@@ -191,7 +199,8 @@ visible in the method's timeline, marked "Replaced".
 ## Leading voices
 
 A short list is kept of people who have provably been ahead of the field. What they say
-about AI-era software engineering is included even when it fails the 5 checks: their
+about AI-era software engineering is included even when it is not a description of real
+work, such as a prediction: their
 predictions matter, and much of what they say rests on their own work. The owner
 approves each name before it is added.
 
