@@ -192,8 +192,8 @@ visible in the method's timeline, marked "Replaced".
 
 A short list is kept of people who have provably been ahead of the field. What they say
 about AI-era software engineering is included even when it fails the 5 checks: their
-predictions matter, and much of what they say rests on their own work. Candidate names
-are kept private until the owner approves each one.
+predictions matter, and much of what they say rests on their own work. The owner
+approves each name before it is added.
 
 **Who is on the list.** Only the very top of the field. A person joins by 1 of 2 routes,
 and their page says which:
@@ -230,8 +230,8 @@ words and their source, and what would count as it coming true. It is checked la
 an agent proposes a verdict: came true, not yet, or did not. The owner approves every
 verdict. "Did not come true" needs positive evidence, never only the absence of news. A
 prediction too vague to check is marked "Cannot be checked"; such cases are decided 1 by
-1, and new rules are written from them. Verdicts on the site's own earlier grades are kept
-private to start.
+1, and new rules are written from them. Verdicts on the site's own earlier grades are not
+shown on the site to start.
 
 ## Tracking what happens next
 

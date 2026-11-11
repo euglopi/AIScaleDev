@@ -40,11 +40,11 @@ the checker enforces the ones code can test.
 
 - Summaries are in our own words and never stand in for the source.
 - Quotes are short, exact and linked.
-- A private copy of each source's text is kept only to check claims against. It is never
+- A copy of each source's text is kept only to check claims against. It is never
   republished.
 
 ## Charts
 
 - A high-value chart may be copied when it is credited to its source.
-- Proposed, not yet approved: record each chart's license, and when a license does not
-  allow copying, redraw the chart from its numbers and credit the source.
+- Each chart's license is recorded. When a license does not allow copying, the chart is
+  redrawn from its numbers and credited to its source.

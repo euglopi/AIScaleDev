@@ -17,7 +17,7 @@ part of the design: the record layout, the approval flow, the dashboard, the pag
 and how agent roles hand work to each other. Changing the shape after content exists
 means moving every record and rewriting every part that touches them.
 
-The system starts private. Its first slice is a daily scan and a dashboard used by 1
+Nothing is published on the site at first. Its first slice is a daily scan and a dashboard used by 1
 person, the owner, who has about 15 minutes a day for approvals. Agent runs use the
 owner's Claude subscription; there is no other budget for running services. Daily volume
 is unknown until the first private runs.
@@ -45,8 +45,8 @@ Weighted criteria:
   (tenet: *agent usage before the owner's minutes*).
 - **Safe writes by several agents at once** (moderate). Several roles run on the same day
   and may touch related records.
-- **Per-reader state** (minor). The public-launch slice adds comments and a newsletter;
-  following a method and personal filters come later.
+- **Per-reader state** (minor). The public-launch slice adds the site's own comments
+  feature and a newsletter; following a method and personal filters come later.
 - **Volume headroom** (minor). Volume is unknown and starts at 1 owner and a daily scan.
 
 ## Options in the Domain
@@ -59,9 +59,9 @@ their changes as a change to the repository; the owner approves a change by acce
 Plain code steps (fetching feeds, dropping exact repeats, the grading rule table, the
 error checks) are scripts the runs call. A build turns the files into static pages: a
 private dashboard for the owner and, at public launch, the public site, each with a
-Markdown copy per page and a data file per record for agents. Comments live in an outside
-discussion service and newsletter subscribers in an outside email service, so neither
-needs a database of its own.
+Markdown copy per page and a data file per record for agents. Comments are the site's own
+feature; how they are stored and how readers sign in is chosen in their own design. The
+newsletter may use an outside sending service that holds its subscriber list.
 
 - **History and undo:** strong. Git keeps every version, its date and its reason, and can
   restore any of them.
@@ -75,7 +75,8 @@ needs a database of its own.
   button, unless the dashboard shows each change as the page it will become.
 - **Safe concurrent writes:** partial. 2 runs editing the same file conflict; the record
   layout must keep writers apart.
-- **Per-reader state:** weak in-house; outside services hold comments and subscribers.
+- **Per-reader state:** weak. Static pages cannot store a reader's comment on their own;
+  comments need storage beside the files.
 - **Volume headroom:** partial. Build time and repository size grow with records.
 
 ### Database and web app
@@ -126,7 +127,8 @@ free, the first slice needs the least built, and records stay readable by people
 agents. It also fits roles that any tool can run and adds no running cost. Its weak
 points are fast approval and concurrent writes, which the design handles: the dashboard
 shows each proposed change as the page it will become, and the record layout keeps
-writers on separate files. Per-reader state is handled by outside services at launch. The
+writers on separate files. Per-reader state arrives with comments at public launch, and
+the comments design decides how it is stored, weighing building it ourselves first. The
 decision turns on the tenets *same facts for people and agents, shaped for people first*
 and *agent usage before the owner's minutes*.
 
@@ -140,8 +142,8 @@ makes approving a change fast; the `dashboard` design shows proposed changes as 
 A database is added beside the files, never in place of them for the published record,
 when any 1 of these becomes true:
 
-1. A feature must remember something per reader that an outside service cannot hold, such
-   as following a method or personal filters.
+1. A feature must remember something per reader, such as stored comments, following a
+   method or personal filters, and the files alone cannot hold it.
 2. Approving through the repository takes the owner longer than the time budget, and a
    button-driven queue would fix it.
 3. The site build takes longer than 5 minutes, or the repository becomes too slow to copy.

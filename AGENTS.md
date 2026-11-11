@@ -24,8 +24,8 @@ Consult these guides before working on related tasks:
 ## Project: AIScale.dev
 Research site: finds research and practice on building software with AI, grades how well each method or claim is proven, tracks what leading voices say, and links every source. It does not review or rank products, and it offers no consulting. Design: docs/high-level-design.md. Editorial rules: docs/editorial/.
 Astro static, MDX, Tailwind.
-The repository is public. Nothing is published on the site before public launch. Never commit source copies, records of who sent a reply, candidate names of real people or secrets.
-Deploy: Vercel. DNS: Cloudflare, DNS-only (grey cloud, no proxy) so Vercel terminates SSL. With grey cloud the Cloudflare SSL/TLS mode does not apply. LIVE at https://aiscale.dev since Jul 28 2026 (Let's Encrypt cert via Vercel).
+Built in public: the repository holds everything, drafts and working records included. Never commit keys or passwords. Nothing is published on the site before public launch.
+Deploy: Vercel. DNS: Cloudflare, DNS-only (grey cloud, no proxy) so Vercel terminates SSL. With grey cloud the Cloudflare SSL/TLS mode does not apply. Went live at https://aiscale.dev on Jul 28 2026 (Let's Encrypt cert via Vercel). As of Nov 11 2026 the domain is being restored at the registrar.
 Apex aiscale.dev belongs to the blog. The Short.io link shortener moves to a subdomain (decided Jul 28 2026).
 Vercel DNS targets (Jul 28 2026): CNAME @ -> e364c7306bdf607c.vercel-dns-017.com and CNAME www -> e364c7306bdf607c.vercel-dns-017.com, both proxy off. www redirects to apex (308) in Vercel.
 Never touch the 3 route*.mx.cloudflare.net MX records or the v=spf1 TXT record: that is live email forwarding.

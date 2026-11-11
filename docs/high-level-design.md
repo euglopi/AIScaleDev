@@ -199,10 +199,10 @@ notes when newer data exists.
 | Part | What it does | Designed in |
 |---|---|---|
 | Records | Every record's fields, IDs, files, versions and history | `records` |
+| Agent runs | The roles, their handoffs, where and how they run, the run log, usage | `agent-runs` |
 | Sources | The source registry, its tiers, how each channel is read, the stored copy of every source read | `sources` |
 | Daily scan | Duplicates, ranking, First look summaries, the Watching list, coverage counts | `daily-scan` |
 | Checking | The rule-based error catcher and the claim-by-claim checker, used by both lanes | `checking` |
-| Agent runs | The roles, their handoffs, where and how they run, the run log, usage | `agent-runs` |
 | Dashboard | The owner's daily view and the owner's desk | `dashboard` |
 | Test set | The internal tests, their cases and the publishing gates | `test-set` |
 | Grading | Fact sheets, synthesis across sources, the rule table, the judges' questions, grade cards, the risk score | `grading` |
@@ -211,13 +211,12 @@ notes when newer data exists.
 | Approval and publishing | The approval points, the queue, the publish step, the logs, the public publishing rules | `approval-and-publishing` |
 | Site pages | Addresses, page kinds, the page template and its layers, labels, forwarding and pruning | `site-pages` |
 | Agent readers | Markdown copies, data files, machine-readable facts, the agents' index, robots and sitemap rules | `agent-readers` |
-| Comments and newsletter | Reader comments and the email newsletter at public launch | `comments-and-newsletter` |
+| Comments and newsletter | The site's own comments feature, with its storage and reader sign-in, and the email newsletter, at public launch | `comments-and-newsletter` |
 
 The editorial rules are plain documents the design links to, not code:
 [the grading rubric](editorial/grading-rubric.md) and
 [the writing rules](editorial/writing-rules.md). The editorial standards, the source list
-and the leading-voices list join them; candidate names of real people stay private until
-approved.
+and the leading-voices list join them.
 
 ### Records
 
@@ -227,7 +226,7 @@ Piece, Correction or reply, Term (a glossary entry) and Run (1 agent run). Every
 has a permanent ID made by code, never by a model, and kept separate from the page
 address. A change is a new version with a date, a reason and a source; a replaced result
 stays visible, marked "Replaced". Every stated fact points to its place in a source, and a
-private copy of what was read is kept so any claim can be re-checked; the copy is never
+copy of what was read is kept so any claim can be re-checked; the copy is never
 republished.
 
 ### Approval
@@ -275,10 +274,10 @@ flowchart LR
     code --> site
 ```
 
-The repository is public: the design, the editorial rules, the code and the records it
-holds can be read by anyone. Nothing is published on the site before public launch, and
-the dashboard is visible only to the owner. Source copies, records of who sent a reply,
-candidate names of real people and secrets are kept outside the public repository. Agent runs use the owner's Claude subscription; the first private week reports
+The project is built in public. The repository holds everything and anyone can read it:
+the design, the editorial rules, the code, the records, drafts and working records. Keys
+and passwords are never committed. Nothing is published on the site before public launch,
+and the dashboard is built for the owner. Agent runs use the owner's Claude subscription; the first private week reports
 usage as a share of the allowance, by role, and the owner then sets the share agent runs
 may take.
 
@@ -320,7 +319,7 @@ signals, usage against the set share, and a way to log anything found elsewhere 
 | When a newer result replaces an older one | Only when it measures the same thing at least as well, on the same or newer tools; the replaced result stays visible | Newest always wins; keep everything side by side | The card stays current without losing what came before |
 | Editorial rules | Plain documents in `docs/editorial/`, linked from the design | Rules written into code | They are content rules for writers and readers; code implements what they define |
 | Build order | Private daily scan and dashboard first, graded pages and public launch second | Everything at once | 1 complete journey works before the next is built |
-| Privacy | A public repository; nothing published on the site before launch; source copies, reply senders, candidate names and secrets kept outside the repository | A private repository until launch | Public standards and public history show that nothing changes silently, while copies of others' work and private details never become public |
+| Building in public | The repository is public and holds everything, drafts and working records included; keys and passwords are never committed | A private repository until launch; a public repository with a private store for drafts | 1 place for everything is simplest, and public history shows nothing changes silently |
 | Agent runs | On Claude subscription usage, with roles written so any tool can run them | A paid programming interface; roles tied to 1 tool | No running budget beyond the subscription, and the tool can change when a role passes the same tests |
 | Tool pages | None | Tool pages with or without a grade | The site grades methods and claims, not products |
 | Stack | Astro static pages, typed content files, Tailwind, the Inter typeface; pipeline code in TypeScript | Rebuild as an app | It works, typed files fit records, and the site and pipeline share 1 toolchain |
@@ -354,7 +353,9 @@ public before they exist.
 state or get stuck, models how users move through the site and how a record moves from
 draft to checked to approved to published. Lean, a tool for mathematical proofs that logic
 is correct, is used later, at the feature-build test stage, on pure-logic parts such as the
-grading rules. Both are designed in `test-set` and `grading`.
+grading rules. From the start, a plain test tries every possible combination of facts in
+the grading rule table, to show each gives exactly 1 grade and stronger evidence never
+gives a lower grade. All 3 are designed in `test-set` and `grading`.
 
 **The system is judged broken, and rethought that day,** when any change-course signal
 turns on: the owner stops opening the dashboard; the scan keeps missing things found
@@ -370,12 +371,11 @@ runs take more than the share of usage the owner set.
 - **Demand.** Whether experienced engineers want evidence grades is unknown until some see
   them.
 - **Overlap.** Whether someone already does this is unchecked.
-- **Testing every rule-table case.** Proposed: from the start, a plain test tries every
-  possible combination of facts in the grading rule table, to show each gives exactly 1
-  grade and stronger evidence never gives a lower grade.
-- **Where private material lives.** Where source copies, records of who sent a reply,
-  candidate names and secrets are kept outside the public repository, and whether drafts
-  and working records are kept there too. Set in `records` before the first agent run.
+- **Where full source copies live.** Proposed: full copies of other people's articles are
+  kept outside the repository, because they are other people's work.
+- **Reader contact details.** Where the email addresses of newsletter subscribers,
+  commenters and people who send replies are kept is set in `comments-and-newsletter` and
+  `people-and-replies`.
 
 ## Design Tree
 
@@ -384,10 +384,10 @@ Flat: each detailed design sits directly under this document, in this order.
 | Order | Design | Slice |
 |---|---|---|
 | 1 | `records` | Private |
-| 2 | `sources` | Private |
-| 3 | `daily-scan` | Private |
-| 4 | `checking` | Private |
-| 5 | `agent-runs` | Private |
+| 2 | `agent-runs` | Private |
+| 3 | `sources` | Private |
+| 4 | `daily-scan` | Private |
+| 5 | `checking` | Private |
 | 6 | `dashboard` | Private |
 | 7 | `test-set` | Private |
 | 8 | `grading` | Public |
