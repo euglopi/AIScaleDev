@@ -9,7 +9,8 @@ the stack changes.
 
 ---
 
-You are designing for aiscale.dev, a static Astro site (blog plus consulting). Your
+You are designing for aiscale.dev, a static Astro research site that grades how well
+methods for building software with AI are proven, with every source linked. Your
 output will be implemented by Claude Code directly into the repo, so it has to hand off
 cleanly. Follow these rules.
 
@@ -27,8 +28,9 @@ cleanly. Follow these rules.
 - Existing pieces: layout `src/layouts/BlogPost.astro`; components `BaseHead`, `Header`,
   `HeaderLink`, `Footer`, `FormattedDate`; pages `index.astro`, `about.astro`,
   `blog/index.astro`, `blog/[...slug].astro`.
-- Routes: `/`, `/blog`, `/blog/<slug>`, `/about`, and `/work` (planned). The contact form
-  on `/work` is the only interactive island allowed on the site.
+- Routes: `/`, `/blog`, `/blog/<slug>`, `/about` and `/contact`. New routes come from
+  the site-pages design. The contact form on `/contact` is the only interactive island
+  allowed on the site.
 
 ## Deliverable format, per component or screen
 
@@ -87,8 +89,8 @@ cleanly. Follow these rules.
 - **Light mode only** unless dark mode is explicitly requested. If dark is in scope, use
   `prefers-color-scheme` with paired tokens rather than duplicated classes.
 - **Real copy, never lorem ipsum.** Brand name is "AI Scale Dev". Nav is Blog, About,
-  Work. Voice: firsthand notes on building AI software and agents, specific and drawn
-  from real builds, no generic AI commentary.
+  Contact. Voice: "we", plain words first, every claim linked to its source, following
+  `docs/editorial/writing-rules.md`. The site grades methods, never products.
 - **Do not invent routes.** Every screen maps to a route listed above.
 - **Do not fight the base stylesheet.** `src/styles/global.css` currently sets body at
   20 px with line-height 1.7, `h1` 3.052em, `h2` 2.441em, `-0.04em` letter-spacing on

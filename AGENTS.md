@@ -22,18 +22,18 @@ Consult these guides before working on related tasks:
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
 ## Project: AIScale.dev
-Blog + consulting site. Astro static, MDX, Tailwind.
-Blog subject: firsthand AI software and agent engineering learnings. Specific, from real builds. No generic AI commentary.
+Research site: finds research and practice on building software with AI, grades how well each method or claim is proven, tracks what leading voices say, and links every source. It does not review or rank products, and it offers no consulting. Design: docs/high-level-design.md. Editorial rules: docs/editorial/.
+Astro static, MDX, Tailwind.
+Everything is private until public launch.
 Deploy: Vercel. DNS: Cloudflare, DNS-only (grey cloud, no proxy) so Vercel terminates SSL. With grey cloud the Cloudflare SSL/TLS mode does not apply. LIVE at https://aiscale.dev since Jul 28 2026 (Let's Encrypt cert via Vercel).
 Apex aiscale.dev belongs to the blog. The Short.io link shortener moves to a subdomain (decided Jul 28 2026).
 Vercel DNS targets (Jul 28 2026): CNAME @ -> e364c7306bdf607c.vercel-dns-017.com and CNAME www -> e364c7306bdf607c.vercel-dns-017.com, both proxy off. www redirects to apex (308) in Vercel.
 Never touch the 3 route*.mx.cloudflare.net MX records or the v=spf1 TXT record: that is live email forwarding.
 Brand display name: "AI Scale Dev" (with spaces). Domain/URL stays aiscale.dev. Repo: AIScaleDev. Local: ~/code/aiscaledev.
-Posts: src/content/blog/*.mdx, schema in src/content.config.ts.
+The blog collection (src/content/blog/, schema in src/content.config.ts) holds no posts. The existing pages are redesigned under the site-pages design.
 Astro-only — the /contact form uses vanilla JS (no React), posting to Web3Forms.
-Contact form: /contact, non-commercial (kept off the sales pitch so Vercel Hobby stays allowed). Access key placeholder in src/consts.ts (WEB3FORMS_ACCESS_KEY); form self-disables until a real key is set. /work consulting page is deferred until the site moves to Vercel Pro (commercial use).
+Contact form: /contact. Access key placeholder in src/consts.ts (WEB3FORMS_ACCESS_KEY); form self-disables until a real key is set.
 Analytics: Vercel Web Analytics via @vercel/analytics (<Analytics/> in BaseHead). Must be enabled in the Vercel dashboard for data to flow.
-Homepage = positioning, not a post feed.
 Default blog template is a placeholder; replace, don't extend.
 Typeface: Inter only, matching Vercel's Next.js blog-starter (decided Jul 28 2026). Self-hosted via Astro's `fonts` config with `fontProviders.google()`; latin subset, variable 400-700. Replaced the template's Atkinson.
 
