@@ -71,7 +71,9 @@ the MVP.
 1. **Design and specification**, then the deep research that builds the source list and
    the leading-voices list, then the build.
 2. **The private slice:** the daily scan and the owner's dashboard. Nothing is published on the site.
-3. **The public slice:** graded pages, then public launch with comments and a newsletter.
+3. **The public slice:** graded pages, starting with 1 topic area covered in depth,
+   measuring what works (studies of whether AI helps), pending confirmation by the deep
+   research; then public launch with comments and a newsletter.
    Rules that matter only once pages are public are set before launch.
 
 ## Target Users

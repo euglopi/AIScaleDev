@@ -102,22 +102,25 @@ records/
 - **Data records are JSON.** Strict, the same in every tool, read directly by the site
   build, and served as-is to agents.
 - **Prose records (Piece, Term) are Markdown** with a block of fields at the top in YAML.
-  Every value in that block is a quoted string, a number or a list written out in full,
-  so nothing is guessed: a value like `no` stays text and never turns into "false". The
+  Every value in that block is a quoted string, a number, or a list or map made only of
+  these, written in block form with no YAML anchors or references, so nothing is guessed: a value like `no` stays text and never turns into "false". The
   block is checked against the same schema as JSON records.
 - **High-volume kinds** (Item, Fact sheet, Scan, Run) sit in a subfolder named for the
   UTC month the record was created; the build fails when a record sits in a month folder
   that does not match its creation date. Other kinds sit in 1 flat folder.
 - **Finding a record by ID.** Every file is named by its ID, so a search for the file name
-  within the kind's folder finds it. The build also writes an index from ID to path.
-- **Shape is checked.** Each kind has a written schema. A record that does not match fails
-  the build, and an agent's proposed record that does not match is rejected.
+  within the kind's folder finds it. The build also writes an index from ID to path into
+  its output; the index is not kept in the repository.
+- **Shape is checked.** Each kind has a written schema. A record that does not follow its
+  kind's current schema fails the build, and an agent's proposed record that does not
+  match is rejected.
 
 ## Dates
 
-Every date is in UTC. A date is written as a full time (`2026-11-11T20:41:40Z`), a day
-(`2026-11-11`), a month (`2026-11`), a year (`2026`) or the word `unknown`. Sources often
-give only a month or nothing; the record keeps exactly the precision the source gives.
+A date is written as a full time in UTC (`2026-11-11T20:41:40Z`), a day (`2026-11-11`), a
+month (`2026-11`), a year (`2026`) or the word `unknown`. A day, month or year is kept as
+the source gives it, without converting it to UTC. Sources often give only a month or
+nothing; the record keeps exactly the precision the source gives.
 
 Dates are kept apart by meaning and never stand in for each other: when something
 happened, when the source published it, when we found it, when we first published it, its
@@ -135,12 +138,14 @@ last meaningful change, and when its sources were last checked.
 | `changes` | The record's change list (see "History") |
 | `last_meaningful_change` | The date of the last meaningful change (see "History") |
 | `merged_into` | Empty, or the ID of the record this one was merged into |
+| `replaced_by` | Empty, or the ID of the record that replaced this one |
 
 ## Who writes which fields
 
 Each kind's fields are split into groups, and each group has 1 owning role. A role writes
 only the groups it owns. Code writes the common fields above, every state, every change
-entry, every ID and every version number.
+entry, every ID and version number, every claim status, every page address, every
+pending block's state and every content fingerprint.
 
 | Kind | Field groups and their owner |
 |---|---|
@@ -156,19 +161,23 @@ entry, every ID and every version number.
 | Prediction | Everything: reader or tracker |
 | Verdict | Ruling and evidence: tracker. Approval: the owner |
 | Piece | Everything: writer |
-| Correction or reply | Request and sender check: the recording agent. Decision: the owner |
+| Correction or reply | Request and sender check: the recording agent. Decision: the owner. The sender is named as a Person only when it is a person shown on the site replying about their own work; any other sender is "a reader", with no name or contact detail |
 | Term | Everything: writer |
 | Run | Everything: the run itself |
 
 Every write starts from a copy of the record. If the file changed since that copy was
-taken, the write is redone from the latest copy; if it still clashes after 3 tries, the
-write fails and the failure is recorded in the run. Schema updates run only when no agent
-run is open.
+taken, the agent re-reads the latest copy and redoes its work on it, never copying its
+earlier values over newer ones; if it still clashes after 3 tries, that write is
+abandoned, the failure is recorded in the run, and the run goes on with its other
+records. Schema updates and agent runs never overlap: an update waits until no run is
+open, and no run starts during an update. A Run record left open past the run time limit
+set in `agent-runs` is marked stopped by code.
 
 ## History
 
-Every record keeps its own change list. Each change adds 1 entry, and entries are only ever
-added, never edited or removed. An entry holds:
+Every record keeps its own change list. Each event adds 1 entry (so an edit that also
+changes the state adds 2), and entries are only ever added, never edited or removed; a
+schema update never rewrites them. An entry holds:
 
 | Field | Meaning |
 |---|---|
@@ -187,7 +196,7 @@ the repository's history is merged.
 
 **Meaningful changes.** A change is meaningful when the record is published, replaced or
 withdrawn, or when an edit to a published record changes a field shown to readers. An
-edit the writer marks "wording only" is not meaningful, and code rejects that mark if the
+edit the owner marks "wording only" is not meaningful (only the owner may set that mark), and code rejects that mark if the
 edit changes any number, date, name, grade line or link. Changes to drafts, re-checks,
 rebuilds and schema updates are never meaningful. `last_meaningful_change` moves only
 with a meaningful change, so a sitemap date built from it moves only when a page's meaning
@@ -195,13 +204,17 @@ changes.
 
 **Grade cards.** A grade card is written in 2 steps by the grader. First its inputs: the
 fact sheets, the results, the synthesis, and any disagreements between the 2 readers.
-Then, once the owner has ruled on any disagreement (the rulings are stored on the card
-beside the 2 fact sheets, and the rule table reads the ruled values), the computed lines.
-Once the computed lines are written, the card's content is frozen: only its state, its
-change list and its approval change afterward. A new version is a new Grade card record.
-Code numbers versions per method (the highest number so far plus 1), checks them for
-clashes like IDs, and never reuses a number, even for a rejected version. The method's
-current-card pointer moves only when a card is published.
+Then, once the owner has ruled on every disagreement (the rulings are stored on the card
+beside the 2 fact sheets, and the rule table reads the ruled values), the computed lines,
+from the inputs as they stand at that moment; a disagreement found later goes into a new
+version. Once the computed lines are written, the card's content is frozen: only its
+state, its change list, its `replaced_by` and its approval change afterward, apart from a
+removal of private information. A new version is a new Grade card record. Code numbers
+versions per method (the highest number so far plus 1), checks them for clashes like IDs,
+and never reuses a number, even for a rejected version. The method's current-card pointer
+always points at its highest-numbered published version: publishing a newer version moves
+the earlier one to `replaced`, and withdrawing the current one moves the pointer back to
+the highest remaining published version, or to none.
 
 **Schema updates.** When a kind's schema changes, a script updates every record of that
 kind in 1 change, each with a `schema-update` entry. On a grade card the update may change
@@ -214,9 +227,11 @@ record gets `merged_into` set to the winner and moves to `withdrawn` with the re
 
 **Nothing is deleted.** A record that should no longer appear moves to `withdrawn` with a
 reason. The 1 exception is private information or content a legal request covers: the
-owner alone removes it from the record, from its change list and from the repository's
-history, and the record keeps a `removed` entry with the date and no content. Agents
-never rewrite history.
+owner alone removes it from the record and its change list, from every other record that
+quotes it (fact sheet quotes and run records included), from the public repository's
+history, from the source-copies repository and from the built site, overriding the locks
+on grade cards and predictions. The record keeps a `removed` entry with the date and no
+content. Agents never rewrite history.
 
 ## States
 
@@ -241,44 +256,64 @@ States each kind may take:
 | Source, Method, Grade card, Timeline event, Person, Prediction, Verdict, Piece, Correction or reply, Term | draft, checked, waiting, approved, published, rejected, replaced, withdrawn |
 | Run | open, finished, stopped (a run is never on the site as a page; its record is public in the repository) |
 
-A record's state alone decides whether the site shows it: `published`, `replaced` and
-`withdrawn` records are shown, and no other. Other status fields in a kind (a source being
-active or dropped, a person's place on the leading-voices list) never decide that. Which
-kinds must pass through `waiting` and `approved`, and when a state may be skipped, is set
-in `approval-and-publishing`. The record path is modeled in TLA+ in `test-set`, to show it
+A record's state alone decides whether the site shows it: `published` and `replaced`
+records are shown, and a `withdrawn` record is shown as a notice only if it was published
+before; a record withdrawn because it was merged is not shown, and its address forwards to
+the record it was merged into. Other status fields in a kind (a source being active or
+dropped, a person's place on the leading-voices list) never decide that.
+
+**Moves between states.** Code makes every move, and only these: `draft` to `checked`
+(citing a passing checker run); `checked` to `waiting`; `waiting` to `approved` or
+`rejected` (recording the owner's decision); `approved` to `published`; `published` to
+`replaced`; any state to `withdrawn` (on the owner's decision, or on a merge); and back
+from `withdrawn` on the owner's decision. Item, Scan, Result and Fact sheet records go
+from `checked` straight to `published`, with no owner approval. Every other kind reaches
+`published` only from `approved`. When an approval may later be relaxed is set in
+`approval-and-publishing`. The record path is modeled in TLA+ in `test-set`, to show it
 can never publish without the approvals it needs and never gets stuck.
 
 **What makes a record checked.** Every run writes its Run record, in the `open` state,
 before it starts work. The checker's Run lists each record it checked with a fingerprint
-of its content (all fields except state, change list and approval) and pass or fail with
-reasons. Code moves a record to `checked` only by citing that Run, and only while the
-record's current fingerprint matches the one checked. Any later change to the content
-moves the record back to `draft`.
+of its content and pass or fail with reasons. Content means every field except the ones
+code keeps for bookkeeping: the common fields, claim status, the pending block, approval,
+page addresses, the method's current-card pointer and the date sources were last
+checked. Code moves a record to `checked` only by citing that Run, only while the record's
+current fingerprint matches the one checked, and only for records written by another run.
+Any later change to the content moves the record back to `draft`; a schema update does not
+count as a change of content.
 
-**Changes to a published record.** A published Method, Person, Piece, Term or Source keeps
-its published content until a change is approved. The proposed new content sits in a
-`pending` block inside the record, with its own state; the record holds at most 1 pending
-block, and a second proposal replaces it and resets it to `draft`. When the pending block
-is approved and published, code moves it into the record in 1 change.
+**Changes to a published record.** A published record keeps its published content until
+a change has passed the same path the record itself needed. The proposed new content sits
+in a `pending` block inside the record, with its own state, checked against its own
+fingerprint and, for kinds that need approval, approved by the owner; the record holds at
+most 1 pending block, and a second proposal replaces it and resets it to `draft`. When the
+pending block is published, code moves it into the record in 1 change. Grade card, Fact
+sheet and Result records never take a pending block: they change only through a new record
+that replaces them. Changes code makes to bookkeeping fields apply directly.
 
 **Leaving `rejected` and `withdrawn`.** A rejected record stays rejected; a new attempt is
-a new record or a new version. Only the owner can bring a withdrawn record back, to the
-state it had before, with a reason.
+a new record or a new version. Only the owner can bring a withdrawn record back, with a
+reason. It returns to the state it had before only if its content still matches its last
+passing check, and otherwise to `draft`; bringing back a merged record clears its
+`merged_into` and takes its addresses back from the record it was merged into.
 
 **Claim status.** Separately from its state, every Item's First look text and every Result
 carries a claim status: `source's claim, not yet checked` or `verified against source`.
-Code sets `verified against source` when a checker run confirms the claim against the
-stored copy of its source. An Item or Result may be published while still the source's
+Code sets `verified against source` when a checker run, separate from the run that wrote
+the claim, records that it compared the claim with the stored copy of its source and found
+it matches. An Item or Result may be published while still the source's
 claim, and the site shows that label beside it. A letter grade is computed only from
-results verified against their source.
+results verified against their source, in the `checked` or `published` state.
 
 ## Links between records
 
 Every ID a record points to must belong to an existing record. A record in `published`
-state may point only to records that are `published` or `replaced`, with these exceptions:
-Run, Source and Person records, which a published record may name before they have pages
-of their own, and the skipped-item list of a Scan, which names items never shown. The
-build fails when either rule is broken.
+state may point only to records that are `published`, `replaced`, or withdrawn after being
+published, with these exceptions: Run, Source and Person records, which a published record
+may name before they have pages of their own, and the skipped-item list of a Scan, which
+names items never shown. The build fails when either rule is broken. On the site, a link
+to a record the site does not show appears as plain text. These rules cover a record's
+fields, not the `by` and `source` values inside its change list.
 
 ## What each kind holds
 
@@ -297,7 +332,8 @@ parts were read (all, or named sections), so no sentence claims more than was re
 its First look text with its claim status: a 1-line summary, an "affects you if" line, its
 topic area and a note in words on what kind of evidence it is. A group of items reporting
 the same news has exactly 1 primary item, and the group's member list is kept on that
-primary item only.
+primary item only; when the primary item is withdrawn, the earliest-found remaining
+member becomes primary.
 
 **Scan.** Date; the ranked entries (Item ID, rank, the rule or judgment that placed it);
 skipped items with a 1-line reason each; the Watching list; coverage counts (sources
@@ -315,7 +351,7 @@ in advance, whether an uncertainty range was given, the identity of each group t
 measured (authors, employers, funders, vendors), and tags for the kind of number
 (self-reported, survey, benchmark, possibly in a model's training data, results picked by
 the seller). Each fact has a pointer to its place in the source: the section, a short
-exact quote of at most 25 words, and the link.
+exact quote of at most 25 words (code rejects a longer one), and the link.
 
 **Result.** The method and the item; the measure and its family (Speed, Quality, Cost,
 Scale, People); before, after and change, with units, as the source states them; what it
@@ -335,15 +371,16 @@ sources were last checked, and whether newer data exists.
 Changed, Contradicted, Dropped); who, when and what; the source item; the grade card
 versions before and after, when it changed the card.
 
-**Person.** Name as they publish it; their public accounts and addresses, used to check
+**Person.** Name as they publish it; their public web accounts and addresses (never an
+email address), used to check
 that a reply really comes from them; for a leading voice, the route that listed them
 (track record or peer recognition) with its sourced evidence and their place on the list
 (candidate, listed, removed); which of their channels can be read within their terms;
 address and past addresses.
 
 **Prediction.** The person; the item holding their words; the exact words; when it was
-made; what would happen, by when, and what source would settle it, all recorded when the
-prediction is logged; when it is due to be checked.
+made; what would happen, by when, and what source would settle it, recorded when the
+prediction is logged and fixed once it is published; when it is due to be checked.
 
 **Verdict.** What it rules on (a prediction, or an earlier grade card version); the ruling;
 the evidence items; the run that proposed it and the owner's approval. A verdict on the
@@ -370,7 +407,8 @@ whether it is copied with credit or redrawn from its numbers, and the credit lin
 ## Where records go
 
 - **In the public repository:** every record, in every state.
-- **On the site:** records in the `published`, `replaced` and `withdrawn` states, each at a
+- **On the site:** records in the `published` and `replaced` states, and records withdrawn
+  after being published, each at a
   permanent address with its data file. A replaced record is labeled "Replaced by" with a
   link to what replaced it; a withdrawn record shows a short notice saying when and why it
   was withdrawn. The page shapes and plain-text copies are set in `site-pages` and
