@@ -11,14 +11,14 @@ proof is, rarely link every claim to its source, and go stale without saying so.
 
 ## Approach
 
-AI Scale Dev (aiscale.dev) finds the best research and practice from the people changing
-software engineering, grades how well each method or claim is proven, tracks what leading
-voices say, and presents it in plain words with every source linked, so engineers learn
-faster and can apply what works. It does not review or rank products: a tool appears only
-as part of the evidence for a method.
+AI Scale Dev (aiscale.dev) has 1 mission: find the best research and practice from the
+people changing software engineering, synthesize it into 1 clear picture, grade how well
+each method is proven, and deliver it in plain words with every source linked, so
+engineers learn faster and choose better. It also tracks what leading voices say. It does
+not review or rank products: a tool appears only as part of the evidence for a method.
 
-A team of AI agents does the finding, reading, drafting, grading, checking and tracking
-every day. The owner sets direction, writes the standards with Claude and approves at set
+A team of AI agents does the finding, reading, synthesizing, grading, drafting, checking
+and tracking every day. The owner sets direction, writes the standards with Claude and approves at set
 points.
 
 ### 2 lanes
@@ -29,10 +29,19 @@ points.
   for a graded page goes on a short Watching list: 1 line and a link.
 - **Graded pages, as evidence arrives.** A method gets its own page, with a grade card and
   a timeline, when its best source passes the inclusion bar in the grading rubric. Its
-  facts are read from the source, its grade is computed by written rules, it is checked
+  facts are read from each source, what all its sources say is synthesized into 1 picture,
+  its grade is computed by written rules, it is checked
   claim by claim against the source, and the owner approves it before it appears. New
-  evidence is shown as it arrives, labeled for what it is, and the page gains more as the
-  checks complete.
+  evidence is shown as it arrives, labeled as the source's own claim and not yet checked,
+  and the page gains more as the checks complete. A letter grade changes only after the
+  evidence behind it is checked.
+
+### Synthesis
+
+Between finding and grading, what several sources say about a method is combined into 1
+picture: where they agree, where they disagree, and what each measured, in what setting.
+Synthesis lays results side by side; it never averages them or turns them into a combined
+score, and a disagreement stays visible instead of being resolved by choosing a side.
 
 ### Rules before models
 
@@ -61,7 +70,7 @@ the MVP.
 
 1. **Design and specification**, then the deep research that builds the source list and
    the leading-voices list, then the build.
-2. **The private slice:** the daily scan and the owner's dashboard. Nothing is public.
+2. **The private slice:** the daily scan and the owner's dashboard. Nothing is published on the site.
 3. **The public slice:** graded pages, then public launch with comments and a newsletter.
    Rules that matter only once pages are public are set before launch.
 
@@ -122,6 +131,7 @@ Highest first; when 2 conflict, the higher one wins.
 | **Watching list** | New items that do not meet the bar for a graded page: 1 line and a link each |
 | **Method** | A named way of working that can be tried and measured. Its page carries the grade card |
 | **Grade card** | The card on a method page: evidence grade, status, who it was tested on, who measured it, measured results, whether it can be repeated, who it fits, and when it was checked |
+| **Synthesis** | Combining what several sources say about 1 method into 1 picture, including where they disagree, without averaging their numbers |
 | **Graded page** | A method page whose grade card has been computed, checked and approved |
 | **Topic area** | 1 of the broad subjects the site covers; each method belongs to 1 |
 | **Leading voice** | A person on the short list of people provably ahead of the field, whose statements are included even when they fail the inclusion bar |
@@ -152,7 +162,8 @@ flowchart TD
     scan --> dash[Dashboard]
     rank --> cand{"Passes the inclusion bar, or touches a covered method?"}
     cand -->|yes| read[2 readers fill fact sheets apart]
-    read --> rule[Rule table computes the grade]
+    read --> synth["Synthesize what all sources say, including disagreements"]
+    synth --> rule[Rule table computes the grade]
     rule --> judge[2 judges answer fixed questions]
     judge --> write[Writer drafts the page]
     write --> check2[Checker]
@@ -172,8 +183,10 @@ skipped item keeps a 1-line reason. The writer gives each item a 1-line summary,
 "affects you if" line, its topic area and a note in words on what kind of evidence it is,
 never a letter grade. The checker runs, and the day's scan and dashboard are built.
 
-**Graded pages.** A grade is computed in 4 steps: 2 readers fill the same fact sheet apart,
-each fact pointing to its place in the source; a rule table in code turns the facts into
+**Graded pages.** 2 readers fill the same fact sheet apart for each source, each fact
+pointing to its place in the source. The fact sheets from all of a method's sources are
+then synthesized into 1 picture: each result side by side with its setting, and every
+agreement and disagreement named. The grade is then computed: a rule table in code turns the facts into
 the grade, the status, the "who measured" label and the inclusion checks; 2 judges answer
 the fixed questions a rule cannot; the owner approves. Any disagreement between the 2
 readers or the 2 judges goes to the owner. The writer drafts the page in layers, the
@@ -192,7 +205,7 @@ notes when newer data exists.
 | Agent runs | The roles, their handoffs, where and how they run, the run log, usage | `agent-runs` |
 | Dashboard | The owner's daily view and the owner's desk | `dashboard` |
 | Test set | The internal tests, their cases and the publishing gates | `test-set` |
-| Grading | Fact sheets, the rule table, the judges' questions, grade cards, the risk score | `grading` |
+| Grading | Fact sheets, synthesis across sources, the rule table, the judges' questions, grade cards, the risk score | `grading` |
 | Tracking | Timeline events, newer data, prediction checks, verdicts | `tracking` |
 | People and replies | Person records, the leading-voices list, statements, right of reply | `people-and-replies` |
 | Approval and publishing | The approval points, the queue, the publish step, the logs, the public publishing rules | `approval-and-publishing` |
@@ -249,7 +262,7 @@ hold no key that can publish, spend or post.
 
 ```mermaid
 flowchart LR
-    subgraph repo["Repository (private until launch)"]
+    subgraph repo["Public repository"]
         rules[Editorial rules and design documents]
         records[Records]
         code[Site and pipeline code]
@@ -262,8 +275,10 @@ flowchart LR
     code --> site
 ```
 
-Everything is private until public launch. The private dashboard is visible only to the
-owner. Agent runs use the owner's Claude subscription; the first private week reports
+The repository is public: the design, the editorial rules, the code and the records it
+holds can be read by anyone. Nothing is published on the site before public launch, and
+the dashboard is visible only to the owner. Source copies, records of who sent a reply,
+candidate names of real people and secrets are kept outside the public repository. Agent runs use the owner's Claude subscription; the first private week reports
 usage as a share of the allowance, by role, and the owner then sets the share agent runs
 may take.
 
@@ -305,7 +320,7 @@ signals, usage against the set share, and a way to log anything found elsewhere 
 | When a newer result replaces an older one | Only when it measures the same thing at least as well, on the same or newer tools; the replaced result stays visible | Newest always wins; keep everything side by side | The card stays current without losing what came before |
 | Editorial rules | Plain documents in `docs/editorial/`, linked from the design | Rules written into code | They are content rules for writers and readers; code implements what they define |
 | Build order | Private daily scan and dashboard first, graded pages and public launch second | Everything at once | 1 complete journey works before the next is built |
-| Privacy | Everything private until public launch | Public from the start, with a private store for drafts | Drafts about real people and unchecked grades stay out of view until the checks exist |
+| Privacy | A public repository; nothing published on the site before launch; source copies, reply senders, candidate names and secrets kept outside the repository | A private repository until launch | Public standards and public history show that nothing changes silently, while copies of others' work and private details never become public |
 | Agent runs | On Claude subscription usage, with roles written so any tool can run them | A paid programming interface; roles tied to 1 tool | No running budget beyond the subscription, and the tool can change when a role passes the same tests |
 | Tool pages | None | Tool pages with or without a grade | The site grades methods and claims, not products |
 | Stack | Astro static pages, typed content files, Tailwind, the Inter typeface; pipeline code in TypeScript | Rebuild as an app | It works, typed files fit records, and the site and pipeline share 1 toolchain |
@@ -349,17 +364,15 @@ runs take more than the share of usage the owner set.
 - **Demand.** Whether experienced engineers want evidence grades is unknown until some see
   them.
 - **Overlap.** Whether someone already does this is unchecked.
-- **Grades and unchecked claims.** Proposed: a letter grade changes only after checking,
-  while a new result can be shown at once as the source's own claim.
 - **Proving the rule table.** Proposed: check every possible combination of facts in the
   grading rule table, so each gives exactly 1 grade and stronger evidence never gives a
   lower grade.
 - **Proving a record's path.** Proposed: model the path draft, checked, approved,
   published as a small state model and check that nothing is published without approval
   and no draft is stuck forever; written in TLA+ only if a plain test cannot express it.
-- **What is public after launch.** Which records and files stay private once the site is
-  public: source copies, drafts, records of who sent a reply, candidate names, secrets.
-  Set before launch.
+- **Where private material lives.** Where source copies, records of who sent a reply,
+  candidate names and secrets are kept outside the public repository, and whether drafts
+  and working records are kept there too. Set in `records` before the first agent run.
 
 ## Design Tree
 
