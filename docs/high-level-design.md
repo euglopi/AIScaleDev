@@ -21,14 +21,42 @@ A team of AI agents does the finding, reading, synthesizing, grading, drafting, 
 and tracking every day. The owner sets direction, writes the standards with Claude and approves at set
 points.
 
+### What a page covers
+
+The subject is new ways of building software, shared first-hand by the companies and
+people at the edge: a new system, method or technique. A method's page covers:
+
+1. **What it is,** and who is doing it.
+2. **How it works,** in enough detail to learn from.
+3. **Real results,** where they exist, with how well they are proven.
+4. **What changed in how people work.**
+5. **How to apply it,** wherever the source gives guidance: the source's own guidance,
+   labeled as theirs.
+6. **Where it is heading.**
+
+Studies of whether AI helps appear as evidence on the pages of the methods they measure,
+not as a subject of their own.
+
+### What the owner cares about now
+
+The owner keeps a short list of what he cares about now: current pains or interests, in
+his own words, for example slow automatic checks and releases (CI/CD) now that agents
+write much of the code. The scan, the ranking and the dashboard put the latest solutions
+for those first: the scout favors items that match an active focus, the ranking places
+them at the top, the dashboard shows the newest for each focus, and the scout proposes new
+sources that cover a focus the current sources miss.
+
 ### 2 lanes
 
 - **First look, every day.** New items from the sources are found, ranked and summarized
   the day they appear. Each is shown right away, labeled "First look" and marked as the
-  source's own claim, not yet checked, with its link. An item that does not meet the bar
-  for a graded page goes on a short Watching list: 1 line and a link.
+  source's own claim, not yet checked, with its link. An item that is not first-hand, not
+  yet described enough to understand, or known only from secondary reports goes on a
+  short Watching list: 1 line and a link.
 - **Graded pages, as evidence arrives.** A method gets its own page, with a grade card and
-  a timeline, when its best source passes the inclusion bar in the grading rubric. Its
+  a timeline, when a notable first-hand source from a leading company or person
+  describes it (the page rule in the grading rubric); a measured comparison is not needed
+  for a page, and the grade card says honestly how well it is proven. Its
   facts are read from each source, what all its sources say is synthesized into 1 picture,
   its grade is computed by written rules, it is checked
   claim by claim against the source, and the owner approves it before it appears. New
@@ -46,7 +74,7 @@ score, and a disagreement stays visible instead of being resolved by choosing a 
 ### Rules before models
 
 Wherever a written rule can decide, code decides: fetching, dropping exact repeats, the
-evidence grade, the inclusion bar, the first line of error checking, ranking by stated
+evidence grade, the page rule, the first line of error checking, ranking by stated
 criteria. A model reads, writes and answers only bounded questions a rule cannot. The same
 facts always give the same grade, and every grade can be explained and re-run.
 
@@ -72,6 +100,9 @@ the MVP.
    the leading-voices list, then the build.
 2. **The private slice:** the daily scan and the owner's dashboard. Nothing is published on the site.
 3. **The public slice:** graded pages, then public launch with comments and a newsletter.
+   The first graded pages are not chosen in advance: the first run looks at what frontier
+   companies and leading people are sharing and picks what offers the most value, and the
+   priorities are refined step by step.
    Rules that matter only once pages are public are set before launch.
 
 ## Target Users
@@ -103,8 +134,8 @@ the MVP.
   no tool pages.
 - **Consulting or selling services.**
 - **A public benchmark that ranks AI coding tools or developers.**
-- **Expert opinion on graded pages.** Graded pages report what sources show; advice is
-  labeled as such and kept apart from findings.
+- **Advice of our own.** Pages report what sources show and do; guidance on applying a
+  method is the source's, labeled as theirs, and the site adds none of its own.
 - **A replacement for the source.** Summaries point to sources and never stand in for
   them.
 - **General AI news.** The subject is how software gets built with AI.
@@ -128,13 +159,15 @@ Highest first; when 2 conflict, the higher one wins.
 | **Source** | A place the agents read: a blog, a feed, a channel, a person's public account |
 | **Item** | 1 thing a source published: a post, paper, talk, release or statement |
 | **First look** | The label on a newly found item: published the day it is found, as the source's own claim, not yet checked |
-| **Watching list** | New items that do not meet the bar for a graded page: 1 line and a link each |
-| **Method** | A named way of working that can be tried and measured. Its page carries the grade card |
+| **Watching list** | New items that are not first-hand, not yet described enough to understand, or known only from secondary reports: 1 line and a link each |
+| **Page rule** | A method gets a page when a notable first-hand source from a leading company or person describes real work in enough detail, in a dated, linked primary source; set in the grading rubric |
+| **Method** | A new system, method or technique for building software, shared first-hand by its builders. Its page carries the grade card |
+| **Focus** | 1 entry on the owner's list of what he cares about now, which the scan, ranking and dashboard put first |
 | **Grade card** | The card on a method page: evidence grade, status, who it was tested on, who measured it, measured results, whether it can be repeated, who it fits, and when it was checked |
 | **Synthesis** | Combining what several sources say about 1 method into 1 picture, including where they disagree, without averaging their numbers |
 | **Graded page** | A method page whose grade card has been computed, checked and approved |
 | **Topic area** | 1 of the broad subjects the site covers; each method belongs to 1 |
-| **Leading voice** | A person on the short list of people provably ahead of the field, whose statements are included even when they fail the inclusion bar |
+| **Leading voice** | A person on the short list of people provably ahead of the field, whose statements are included even when they are not descriptions of real work, such as predictions |
 | **Verdict** | A dated ruling on something left open: whether a prediction came true, or how an earlier grade held up |
 | **Role** | 1 kind of agent work (scout, reader, grader, writer, checker, tracker), written as instructions with file inputs and file outputs |
 | **Change-course signal** | A condition that, when it turns on, triggers a rethink of the system that day |
@@ -160,7 +193,7 @@ flowchart TD
     first --> check1[Checker]
     check1 --> scan[Daily scan]
     scan --> dash[Dashboard]
-    rank --> cand{"Passes the inclusion bar, or touches a covered method?"}
+    rank --> cand{"Passes the page rule, or touches a covered method?"}
     cand -->|yes| read[2 readers fill fact sheets apart]
     read --> synth["Synthesize what all sources say, including disagreements"]
     synth --> rule[Rule table computes the grade]
@@ -187,7 +220,7 @@ never a letter grade. The checker runs, and the day's scan and dashboard are bui
 pointing to its place in the source. The fact sheets from all of a method's sources are
 then synthesized into 1 picture: each result side by side with its setting, and every
 agreement and disagreement named. The grade is then computed: a rule table in code turns the facts into
-the grade, the status, the "who measured" label and the inclusion checks; 2 judges answer
+the grade, the status, the "who measured" label and the page checks; 2 judges answer
 the fixed questions a rule cannot; the owner approves. Any disagreement between the 2
 readers or the 2 judges goes to the owner. The writer drafts the page in layers, the
 checker matches every claim to the stored copy of its source, and the owner approves.
@@ -200,10 +233,10 @@ notes when newer data exists.
 |---|---|---|
 | Records | Every record's fields, IDs, files, versions and history | `records` |
 | Agent runs | The roles, their handoffs, where and how they run, the run log, usage | `agent-runs` |
-| Sources | The source registry, its tiers, how each channel is read, the stored copy of every source read | `sources` |
-| Daily scan | Duplicates, ranking, First look summaries, the Watching list, coverage counts | `daily-scan` |
+| Sources | The source registry, its tiers, how each channel is read, the stored copy of every source read, new sources proposed for a focus | `sources` |
+| Daily scan | Duplicates, ranking with active focuses first, First look summaries, the Watching list, coverage counts | `daily-scan` |
 | Checking | The rule-based error catcher and the claim-by-claim checker, used by both lanes | `checking` |
-| Dashboard | The owner's daily view and the owner's desk | `dashboard` |
+| Dashboard | The owner's daily view, the owner's desk, and setting and following his focuses | `dashboard` |
 | Test set | The internal tests, their cases and the publishing gates | `test-set` |
 | Grading | Fact sheets, synthesis across sources, the rule table, the judges' questions, grade cards, the risk score | `grading` |
 | Tracking | Timeline events, newer data, prediction checks, verdicts | `tracking` |
@@ -222,7 +255,8 @@ and the leading-voices list join them.
 
 The records are Source, Item, Scan (1 day's ranked list, Watching list and coverage),
 Method, Fact sheet, Result, Grade card, Timeline event, Person, Prediction, Verdict,
-Piece, Correction or reply, Term (a glossary entry) and Run (1 agent run). Every record
+Piece, Correction or reply, Term (a glossary entry), Run (1 agent run) and Focus (1 entry
+on the owner's list of what he cares about now). Every record
 has a permanent ID made by code, never by a model, and kept separate from the page
 address. A change is a new version with a date, a reason and a source; a replaced result
 stays visible, marked "Replaced". Every stated fact points to its place in a source, and a
@@ -239,13 +273,16 @@ publishes by timing out. Later, once the grading test and a random sample of app
 pages show errors below a set bar, and only on the owner's explicit yes, the owner moves
 from approving every graded page to setting the rules, reviewing a random sample and
 deciding the cases sent up; pages about people and downgrades always stay with the owner.
+An approval counts only when the owner merges, from his own GitHub account, the pull
+request that carries it.
 
 ### Agent roles
 
 6 roles hand records to each other: scout, reader, grader, writer, checker and tracker.
 Each role is written as instructions with file inputs and file outputs, so any tool can
-run it. Where roles run (scheduled Claude Code runs, or bots in other tools with a lead
-agent) is decided first in the `agent-runs` design. A role moves to another model or tool
+run it. For now every role runs by hand, started from the lead conversation in Claude Code
+with the owner present or at his request; whether, when and how roles run on a schedule or
+in other tools is decided later. A role moves to another model or tool
 only when it passes the same tests. No agent checks its own work: the checker runs apart
 from the writer, and the 2 readers and 2 judges never see each other's answers.
 
@@ -276,22 +313,26 @@ flowchart LR
 
 The project is built in public. The repository holds everything and anyone can read it:
 the design, the editorial rules, the code, the records, drafts and working records. Keys
-and passwords are never committed. Nothing is published on the site before public launch,
-and the dashboard is built for the owner. Agent runs use the owner's Claude subscription; the first private week reports
-usage as a share of the allowance, by role, and the owner then sets the share agent runs
-may take.
+and passwords are never committed. Full copies of other people's articles are kept outside
+it, in a separate private repository holding only those copies, because they are other
+people's work. Nothing is published on the site before public launch, and the dashboard is
+built for the owner. Agent runs use the owner's Claude subscription; how they are kept
+within his usage is decided with the plan for scheduled runs.
 
 ### Pages
 
 Every page reads from short to long: a 1-line answer, a 1-paragraph summary, the grade
-card with its results, the timeline, the detail and the sources. Unfamiliar terms are
+card with its results, then how it works, what changed in how people work, how to apply it
+as the source advises, where it is heading, the timeline, the detail and the sources. Unfamiliar terms are
 explained in plain words first and link to the glossary. Addresses are readable words,
 frozen at first publication and separate from IDs; a merged or renamed page forwards its
 old address for good. Page kinds are topic area, method, daily scan, explainer, glossary
 term, change log and "How this is made", with person, approach and use-case pages after
 the MVP. The site's voice is "we". Every page links to "Correct this or add context".
 
-The dashboard has 5 sections: Today's scan, What moved, Trends, Pieces and Coverage. The
+The dashboard has 6 sections: What I care about now (the latest for each active focus,
+where the owner also adds, edits and pauses focuses), Today's scan, What moved, Trends,
+Pieces and Coverage. The
 owner's desk adds the approval queue with a preview of each draft, the change-course
 signals, usage against the set share, and a way to log anything found elsewhere first.
 
@@ -371,8 +412,8 @@ runs take more than the share of usage the owner set.
 - **Demand.** Whether experienced engineers want evidence grades is unknown until some see
   them.
 - **Overlap.** Whether someone already does this is unchecked.
-- **Where full source copies live.** Proposed: full copies of other people's articles are
-  kept outside the repository, because they are other people's work.
+- **Scheduled runs.** Whether agent roles run on a schedule, where, in which tools, and how
+  the owner's own usage is protected, is decided later; until then roles run only by hand.
 - **Reader contact details.** Where the email addresses of newsletter subscribers,
   commenters and people who send replies are kept is set in `comments-and-newsletter` and
   `people-and-replies`.
