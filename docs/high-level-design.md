@@ -273,13 +273,16 @@ publishes by timing out. Later, once the grading test and a random sample of app
 pages show errors below a set bar, and only on the owner's explicit yes, the owner moves
 from approving every graded page to setting the rules, reviewing a random sample and
 deciding the cases sent up; pages about people and downgrades always stay with the owner.
+An approval counts only when the owner merges, from his own GitHub account, the pull
+request that carries it.
 
 ### Agent roles
 
 6 roles hand records to each other: scout, reader, grader, writer, checker and tracker.
 Each role is written as instructions with file inputs and file outputs, so any tool can
-run it. Where roles run (scheduled Claude Code runs, or bots in other tools with a lead
-agent) is decided first in the `agent-runs` design. A role moves to another model or tool
+run it. For now every role runs by hand, started from the lead conversation in Claude Code
+with the owner present or at his request; whether, when and how roles run on a schedule or
+in other tools is decided later. A role moves to another model or tool
 only when it passes the same tests. No agent checks its own work: the checker runs apart
 from the writer, and the 2 readers and 2 judges never see each other's answers.
 
@@ -310,10 +313,11 @@ flowchart LR
 
 The project is built in public. The repository holds everything and anyone can read it:
 the design, the editorial rules, the code, the records, drafts and working records. Keys
-and passwords are never committed. Nothing is published on the site before public launch,
-and the dashboard is built for the owner. Agent runs use the owner's Claude subscription; the first private week reports
-usage as a share of the allowance, by role, and the owner then sets the share agent runs
-may take.
+and passwords are never committed. Full copies of other people's articles are kept outside
+it, in a separate private repository holding only those copies, because they are other
+people's work. Nothing is published on the site before public launch, and the dashboard is
+built for the owner. Agent runs use the owner's Claude subscription; how they are kept
+within his usage is decided with the plan for scheduled runs.
 
 ### Pages
 
@@ -401,11 +405,6 @@ runs take more than the share of usage the owner set.
 
 ## Open Questions
 
-- **Notable, leading source.** Proposed: a primary-tier source on the source list from a
-  company or lab on that list, or a person on the leading-voices list; settled in
-  `grading` and `sources`.
-- **Focus as a record.** Proposed: each focus is saved as its own record kind, so every
-  role can read it, and readers may later set their own.
 - **Daily volume and usage.** How many items about 120 sources produce a day, how many
   repeat the same news, and how much usage a day's runs take.
 - **Readable channels.** Some important channels may not be readable within their terms;
@@ -413,8 +412,8 @@ runs take more than the share of usage the owner set.
 - **Demand.** Whether experienced engineers want evidence grades is unknown until some see
   them.
 - **Overlap.** Whether someone already does this is unchecked.
-- **Where full source copies live.** Proposed: full copies of other people's articles are
-  kept outside the repository, because they are other people's work.
+- **Scheduled runs.** Whether agent roles run on a schedule, where, in which tools, and how
+  the owner's own usage is protected, is decided later; until then roles run only by hand.
 - **Reader contact details.** Where the email addresses of newsletter subscribers,
   commenters and people who send replies are kept is set in `comments-and-newsletter` and
   `people-and-replies`.

@@ -126,8 +126,7 @@ source must pass all 4 page checks:
 3. **Described:** enough detail to understand what they did and how it works.
 4. **Dated and linked:** a primary source that was opened and read.
 
-**Notable, leading source (proposed, to be settled in the `grading` and `sources`
-designs):** the source is a primary-tier source on the source list from a company or lab
+**Notable, leading source:** the source is a primary-tier source on the source list from a company or lab
 on that list, or the person is on the leading-voices list.
 
 - A famous name alone does not earn a page: the source must describe its own real work.
