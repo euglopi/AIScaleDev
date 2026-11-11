@@ -52,10 +52,10 @@ This design proposes answers to each below; they take effect only through that a
 
 | Role | Reads | Writes (field groups it owns in the records design) | Code steps it calls |
 |---|---|---|---|
-| Scout | The approved sources | Items (fetch facts, license, fingerprint, read scope, group), the Scan, proposed Sources and Person identities | Fetch within the network list, drop exact repeats, rank by written rules, make IDs |
+| Scout | The approved sources, and the owner's active focuses | Items (fetch facts, license, fingerprint, read scope, group), the Scan, proposed Sources and Person identities | Fetch within the network list, drop exact repeats, rank by written rules with items matching an active focus first, make IDs |
 | Reader | Items chosen for grading, and their stored copies | Fact sheets, Results, Predictions | Make IDs, store pointers |
 | Grader | Fact sheets, Results | Grade card inputs and computed lines, including the synthesis and the 2 judges' answers | The rule table, version numbers |
-| Writer | Items, grade cards, methods | First look text, Method page text, Pieces, Terms | None |
+| Writer | Items, grade cards, methods, and the sources' own guidance on applying a method | First look text, Method page text, Pieces, Terms | None |
 | Checker | Anything another role wrote, and the stored source copies | Check results in its own Run record | The rule-based error catcher, fingerprints |
 | Tracker | Covered methods, people, predictions due | Timeline events, proposed Verdicts, leading-voice evidence | None beyond IDs |
 
@@ -145,6 +145,8 @@ and is used only for that conversation. The lead:
 - reports what the runs did, from their Run records, and what waits for the owner;
 - records the owner's approvals, rejections and rulings into the records, quoting the
   owner's words in the change entry, and never on its own judgment;
+- records the owner's focuses (what he cares about now) exactly as he words them, and
+  changes them only when he says so;
 - briefs other sessions for design and build work and reviews what they return.
 
 The lead never approves, rules or rejects on the owner's behalf, and a role never talks to
@@ -258,7 +260,7 @@ through the fetch script, which refuses any other host.
 | Order when usage is short | First look, checks, graded pages, tracking | Equal shares | The daily scan is the product's first promise; checks keep drafted work honest |
 | Where roles run | Claude cloud scheduled tasks with 1 Project as lead; the owner's Mac as fallback | GitHub Actions with a subscription key; Codex, Grok or Hermes | Runs while the owner's computer is off, inside Anthropic's terms, with no subscription key stored in the public repository |
 | Run output | Pull requests of record files, merged by code when the build passes; approval is a state change | The owner merges every run's pull request | Approval stays a recorded decision on the record, and the owner's minutes go to decisions, not merges |
-| Second judge | A Claude model, like the first | A model from another family on its own account | Another family needs another account or paid access; same-family bias is measured by the grading test and the owner's blind grades |
+| Second judge | A Claude model, like the first | A model from another family on its own account, such as OpenAI's GPT-6 Astra run by hand through Codex on the owner's OpenAI account | Another family needs another account or paid access; same-family bias is measured by the grading test and the owner's blind grades |
 
 ## Open Questions & Future Decisions
 
