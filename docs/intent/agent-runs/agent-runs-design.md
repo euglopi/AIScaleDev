@@ -101,7 +101,8 @@ flowchart LR
 - The **First look chain** (scout, writer, checker) runs once a day at a fixed hour the
   owner sets, so the scan is ready before the owner's review.
 - The **graded chain** (readers, grader, writer, checker) starts the same day for any item
-  the scout marks as a candidate, and continues across days when it waits for the owner.
+  the scout marks as a candidate (an item that passes the page rule in the grading rubric,
+  or touches a method already covered), and continues across days when it waits for the owner.
 - The **tracker** runs once a day after the scan, on covered methods and predictions due.
 - Each role in a chain starts when the run before it has finished and its output is in the
   repository. When the platform allows only hourly starts, the next role takes the next
