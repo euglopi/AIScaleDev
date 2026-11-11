@@ -21,54 +21,66 @@ pages](../../decisions/whole-system-shape.md)) and from the project's tenets:
   record and see what it says, where each fact came from and how it changed.
 - **The record is the data file agents read.** The file served to agents is the record
   itself, so people and agents always get the same facts.
-- **Nothing changes silently.** Every change keeps a dated reason inside the record, and a
-  grade card is never edited, only replaced by a new version.
+- **Nothing changes silently.** Every change keeps a dated entry inside the record, a
+  grade card's computed content is never edited, and nothing is deleted.
 - **Any tool can run a role.** Roles read record files and write record files; nothing
   depends on a particular agent tool or model.
 - **Built in public.** Every record, drafts and working records included, lives in the
-  public repository. Keys and passwords are never in a record.
-- **Show it now, labeled honestly.** A new claim can be recorded and shown at once, marked
-  as the source's own claim and not yet checked; a letter grade changes only after the
-  evidence behind it is checked.
+  public repository. Keys and passwords are never in a record. Full copies of other
+  people's articles are the 1 thing kept outside it.
+- **Show it now, labeled honestly.** A new claim can be recorded and shown at once,
+  marked as the source's claim and not yet checked; a letter grade is computed only from
+  verified results.
+- **Code moves records, models write content.** IDs, version numbers, states, change
+  entries and checks of a record's shape and links are written by code, never by a model.
 
 ## Record kinds
 
 15 kinds. Each has a short ID prefix used in its IDs.
 
-| Kind | Prefix | What 1 record is | Written by |
-|---|---|---|---|
-| Source | `src` | A place the agents read: a blog, a feed, a paper archive, a channel, a person's public account | Scout proposes; the owner approves |
-| Item | `itm` | 1 thing a source published: a post, paper, talk, release, changelog entry or statement, with its First look text | Scout, writer |
-| Scan | `scn` | 1 day's ranked list, skip reasons, Watching list and coverage counts | Scout |
-| Method | `mth` | A named way of working that can be tried and measured; its page carries the grade card | Writer, grader |
-| Fact sheet | `fct` | The fixed facts 1 reader pulled from 1 item about 1 method, each with a pointer into the source | Reader |
-| Result | `res` | 1 measured result, as 1 row of a grade card's results | Reader proposes; grader confirms |
-| Grade card | `grd` | 1 version of a method's grade card, with everything it was computed from | Grader |
-| Timeline event | `evt` | Something that happened to a covered method, and what it changed on the card | Tracker |
-| Person | `per` | Someone named on the site, and for a leading voice the route that listed them | Scout, tracker; the owner approves leading voices |
-| Prediction | `prd` | A dated statement about the future, in the person's own words | Reader, tracker |
-| Verdict | `vrd` | A dated ruling on a prediction, or on how an earlier grade card held up | Tracker proposes; the owner approves |
-| Piece | `pce` | An authored article, such as an explainer | Writer |
-| Correction or reply | `cor` | A request to correct a page or add context, and what was done | Recorded by an agent; the owner decides |
-| Term | `trm` | 1 glossary entry | Writer |
-| Run | `run` | 1 agent run: role, tool, model, inputs, outputs, usage, outcome | The run itself |
+| Kind | Prefix | What 1 record is |
+|---|---|---|
+| Source | `src` | A place the agents read: a blog, a feed, a paper archive, a channel, a person's public account |
+| Item | `itm` | 1 thing a source published: a post, paper, talk, release, changelog entry or statement, with its First look text |
+| Scan | `scn` | 1 day's ranked list, skip reasons, Watching list and coverage counts |
+| Method | `mth` | A named way of working that can be tried and measured; its page carries the grade card |
+| Fact sheet | `fct` | The fixed facts 1 reader pulled from 1 item about 1 method, each with a pointer into the source |
+| Result | `res` | 1 measured result, as 1 row of a grade card's results |
+| Grade card | `grd` | 1 version of a method's grade card, with everything it was computed from |
+| Timeline event | `evt` | Something that happened to a covered method, and what it changed on the card |
+| Person | `per` | Someone named on the site, and for a leading voice the route that listed them |
+| Prediction | `prd` | A dated statement about the future, in the person's own words |
+| Verdict | `vrd` | A dated ruling on a prediction, or on how an earlier grade card held up |
+| Piece | `pce` | An authored article, such as an explainer |
+| Correction or reply | `cor` | A request to correct a page or add context, and what was done |
+| Term | `trm` | 1 glossary entry |
+| Run | `run` | 1 agent run: role, tool, model, inputs, outputs, usage, outcome |
 
 Synthesis, the combining of what all of a method's sources say into 1 picture, is held
-inside the grade card version it feeds, not as a kind of its own. Check results are held
-in the checker's Run record. Other detailed designs may add kinds or fields through this
-design.
+inside the grade card version it feeds. Check results are held in the checker's Run
+record. Other detailed designs add kinds or fields through this design.
 
 ## IDs
 
-An ID is the kind's prefix, an underscore and 8 random characters from a 32-character
-alphabet that leaves out easily confused letters, for example `mth_4f9k2c7q`. Code makes
-every ID; a model never does. Before an ID is used, code checks that no record already
-has it. An ID never changes, is never reused and carries no meaning, so a record can be
-renamed, merged or moved without breaking a link to it.
+An ID is the kind's prefix, an underscore and 8 characters drawn at random from 32
+lowercase characters: the digits 0 to 9 and the letters `a b c d e f g h j k m n p q r s t
+v w x y z` (no `i`, `l`, `o` or `u`, which are easily confused). Example: `mth_4f9k2c7q`.
+IDs are lowercase only, so 2 IDs can never land on the same file on a disk that ignores
+case.
+
+Code makes every ID; a model never does. Before an ID is used, code checks it against
+every record on the main branch and every record the run has already made. A clash with a
+record made at the same time on another branch is caught when the build runs on the
+merged result: the build fails on any duplicate ID, and the record not yet merged gets a
+new ID before it is merged.
+
+An ID never changes, is never reused and carries no meaning, so a record can be renamed,
+merged or moved without breaking a link to it.
 
 A page address (readable words, such as `/methods/just-in-time-tests`) is separate from
-the ID and is owned by the `site-pages` design. A record stores its address once it is
-first published, so the address can be frozen and an old address forwarded.
+the ID and is owned by the `site-pages` design. Kinds with pages (Method, Person, Piece,
+Term, Source) store their address once first published, and every earlier address in a
+list of past addresses, so old addresses can keep forwarding.
 
 ## Files and folders
 
@@ -79,6 +91,7 @@ records/
   sources/src_xxxxxxxx.json
   methods/mth_xxxxxxxx.json
   items/2026-11/itm_xxxxxxxx.json
+  factsheets/2026-11/fct_xxxxxxxx.json
   scans/2026-11/scn_xxxxxxxx.json
   runs/2026-11/run_xxxxxxxx.json
   pieces/pce_xxxxxxxx.md
@@ -86,17 +99,29 @@ records/
   ...
 ```
 
-- **Format.** Data records are JSON: strict, the same for every tool, read directly by the
-  site build, and served as-is to agents. Prose records (Piece, Term) are Markdown with
-  the same fields at the top, so their text reads naturally.
-- **High-volume kinds** (Item, Scan, Fact sheet, Run) sit in a subfolder for the month the
-  record was created, so no folder grows past a few thousand files. Other kinds sit in 1
-  flat folder. Code builds an index from ID to file path at each build.
-- **Shape is checked.** Each kind has a written schema; a record that does not match its
-  schema fails the build and is rejected when an agent proposes it.
-- **Schema version.** Every record carries the version of its kind's schema. When a
-  schema changes, a script updates every record of that kind in 1 change, and the change
-  is logged.
+- **Data records are JSON.** Strict, the same in every tool, read directly by the site
+  build, and served as-is to agents.
+- **Prose records (Piece, Term) are Markdown** with a block of fields at the top in YAML.
+  Every value in that block is a quoted string, a number or a list written out in full,
+  so nothing is guessed: a value like `no` stays text and never turns into "false". The
+  block is checked against the same schema as JSON records.
+- **High-volume kinds** (Item, Fact sheet, Scan, Run) sit in a subfolder named for the
+  UTC month the record was created; the build fails when a record sits in a month folder
+  that does not match its creation date. Other kinds sit in 1 flat folder.
+- **Finding a record by ID.** Every file is named by its ID, so a search for the file name
+  within the kind's folder finds it. The build also writes an index from ID to path.
+- **Shape is checked.** Each kind has a written schema. A record that does not match fails
+  the build, and an agent's proposed record that does not match is rejected.
+
+## Dates
+
+Every date is in UTC. A date is written as a full time (`2026-11-11T20:41:40Z`), a day
+(`2026-11-11`), a month (`2026-11`), a year (`2026`) or the word `unknown`. Sources often
+give only a month or nothing; the record keeps exactly the precision the source gives.
+
+Dates are kept apart by meaning and never stand in for each other: when something
+happened, when the source published it, when we found it, when we first published it, its
+last meaningful change, and when its sources were last checked.
 
 ## Fields every record has
 
@@ -108,127 +133,236 @@ records/
 | `state` | Where the record is on its path (see "States") |
 | `created` | When the record was created, and by which run or by the owner |
 | `changes` | The record's change list (see "History") |
-| `last_meaningful_change` | The date of the last change that alters what a reader would understand; a re-check, a rebuild or a wording fix does not move it |
+| `last_meaningful_change` | The date of the last meaningful change (see "History") |
+| `merged_into` | Empty, or the ID of the record this one was merged into |
 
-Dates are kept apart by meaning and never stand in for each other: when something
-happened, when the source published it, when we found it, when we first published it, its
-last meaningful change, and when its sources were last checked.
+## Who writes which fields
+
+Each kind's fields are split into groups, and each group has 1 owning role. A role writes
+only the groups it owns. Code writes the common fields above, every state, every change
+entry, every ID and every version number.
+
+| Kind | Field groups and their owner |
+|---|---|
+| Source | Everything: scout proposes, the owner approves |
+| Item | Fetch facts, license, fingerprint, read scope, group: scout. First look text: writer |
+| Scan | Everything: scout |
+| Method | Name, topic area, family links, page text: writer. Current grade card pointer: code |
+| Fact sheet | Everything: the 1 reader run that fills it |
+| Result | Everything: reader. Claim status: code |
+| Grade card | Inputs and computed lines: grader. Owner rulings: the owner |
+| Timeline event | Everything: tracker |
+| Person | Identity and accounts: scout. Leading-voice route and evidence: tracker. List place: the owner |
+| Prediction | Everything: reader or tracker |
+| Verdict | Ruling and evidence: tracker. Approval: the owner |
+| Piece | Everything: writer |
+| Correction or reply | Request and sender check: the recording agent. Decision: the owner |
+| Term | Everything: writer |
+| Run | Everything: the run itself |
+
+Every write starts from a copy of the record. If the file changed since that copy was
+taken, the write is redone from the latest copy; if it still clashes after 3 tries, the
+write fails and the failure is recorded in the run. Schema updates run only when no agent
+run is open.
 
 ## History
 
-Every record keeps its own change list. Each change adds 1 entry: the date, who made it
-(a run ID, or the owner), what fields changed, the reason in 1 line, and the source that
-justifies it when there is one. Entries are only ever added, never edited or removed.
-Git keeps every earlier full copy of the file as well, but the change list is what the
-change log page, the dashboard's "What moved" and agents read, so it survives however the
-repository's history is merged.
+Every record keeps its own change list. Each change adds 1 entry, and entries are only ever
+added, never edited or removed. An entry holds:
 
-A grade card is never edited. A new version is a new Grade card record, and the method
-points to its current version. Earlier versions stay, so any card can be re-run and
-explained, and readers can see what moved.
+| Field | Meaning |
+|---|---|
+| `at` | When, in UTC |
+| `by` | The run ID, or `owner` |
+| `event` | `created`, `edited`, `state`, `schema-update`, `merged` or `removed` |
+| `fields` | Each changed field with its old and new value |
+| `reason` | 1 line |
+| `source` | The item ID or address that justifies the change, when there is one |
+| `meaningful` | Yes or no, set by code |
 
-A record is never deleted. A record that should no longer appear is moved to the
-`withdrawn` state with a reason. The only exception is private information or a legal
-requirement, where the content is removed, the record stays with a "Removed" entry and
-the date.
+Creation, every edit, every state change, every schema update and every merge each add an
+entry. Git keeps every earlier full copy of the file as well, but the change list is what
+the change log page, the dashboard's "What moved" and agents read, so it survives however
+the repository's history is merged.
+
+**Meaningful changes.** A change is meaningful when the record is published, replaced or
+withdrawn, or when an edit to a published record changes a field shown to readers. An
+edit the writer marks "wording only" is not meaningful, and code rejects that mark if the
+edit changes any number, date, name, grade line or link. Changes to drafts, re-checks,
+rebuilds and schema updates are never meaningful. `last_meaningful_change` moves only
+with a meaningful change, so a sitemap date built from it moves only when a page's meaning
+changes.
+
+**Grade cards.** A grade card is written in 2 steps by the grader. First its inputs: the
+fact sheets, the results, the synthesis, and any disagreements between the 2 readers.
+Then, once the owner has ruled on any disagreement (the rulings are stored on the card
+beside the 2 fact sheets, and the rule table reads the ruled values), the computed lines.
+Once the computed lines are written, the card's content is frozen: only its state, its
+change list and its approval change afterward. A new version is a new Grade card record.
+Code numbers versions per method (the highest number so far plus 1), checks them for
+clashes like IDs, and never reuses a number, even for a rejected version. The method's
+current-card pointer moves only when a card is published.
+
+**Schema updates.** When a kind's schema changes, a script updates every record of that
+kind in 1 change, each with a `schema-update` entry. On a grade card the update may change
+only how a value is written, never the value. Every earlier schema is kept in the
+repository, so an old card can still be read and re-run.
+
+**Merges.** When 2 records turn out to be the same method, person or source, the losing
+record gets `merged_into` set to the winner and moves to `withdrawn` with the reason
+"merged"; the winner takes the loser's addresses into its past addresses.
+
+**Nothing is deleted.** A record that should no longer appear moves to `withdrawn` with a
+reason. The 1 exception is private information or content a legal request covers: the
+owner alone removes it from the record, from its change list and from the repository's
+history, and the record keeps a `removed` entry with the date and no content. Agents
+never rewrite history.
 
 ## States
-
-Records the owner approves move along 1 path:
 
 | State | Meaning |
 |---|---|
 | `draft` | Written by an agent; not checked |
-| `checked` | The checker passed it: every claim matched the stored copy of its source, and the rule-based error catcher found nothing |
+| `checked` | The checker passed exactly this content |
 | `waiting` | Checked and waiting for the owner |
 | `approved` | The owner approved it |
-| `published` | It is on the site |
-| `replaced` | A newer version took its place; it stays visible in history |
+| `published` | On the site |
+| `rejected` | The owner turned it down, with a reason; it stays as a record |
+| `replaced` | A newer version took its place |
 | `withdrawn` | Taken out of view, with a reason |
 
-A record that fails a check returns to `draft` with the failures listed in the checker's
-Run. Records that need no approval (an Item with its First look text, a Scan, a Run) skip
-`waiting` and `approved`. How a record moves between states, and what
-may publish without approval, is set in `approval-and-publishing`; that the path can
-never publish without approval or get stuck is modeled in TLA+ in `test-set`.
+States each kind may take:
 
-Separately, every claim carries a claim status: `source's claim, not checked` or
-`checked`. A new result can appear at once with the first status; a letter grade is
-computed only from results with the second.
+| Kind | States |
+|---|---|
+| Item, Scan | draft, checked, published, withdrawn |
+| Result | draft, checked, published, replaced, withdrawn |
+| Fact sheet | draft, checked, published, rejected, replaced, withdrawn |
+| Source, Method, Grade card, Timeline event, Person, Prediction, Verdict, Piece, Correction or reply, Term | draft, checked, waiting, approved, published, rejected, replaced, withdrawn |
+| Run | open, finished, stopped (a run is never on the site as a page; its record is public in the repository) |
+
+A record's state alone decides whether the site shows it: `published`, `replaced` and
+`withdrawn` records are shown, and no other. Other status fields in a kind (a source being
+active or dropped, a person's place on the leading-voices list) never decide that. Which
+kinds must pass through `waiting` and `approved`, and when a state may be skipped, is set
+in `approval-and-publishing`. The record path is modeled in TLA+ in `test-set`, to show it
+can never publish without the approvals it needs and never gets stuck.
+
+**What makes a record checked.** Every run writes its Run record, in the `open` state,
+before it starts work. The checker's Run lists each record it checked with a fingerprint
+of its content (all fields except state, change list and approval) and pass or fail with
+reasons. Code moves a record to `checked` only by citing that Run, and only while the
+record's current fingerprint matches the one checked. Any later change to the content
+moves the record back to `draft`.
+
+**Changes to a published record.** A published Method, Person, Piece, Term or Source keeps
+its published content until a change is approved. The proposed new content sits in a
+`pending` block inside the record, with its own state; the record holds at most 1 pending
+block, and a second proposal replaces it and resets it to `draft`. When the pending block
+is approved and published, code moves it into the record in 1 change.
+
+**Leaving `rejected` and `withdrawn`.** A rejected record stays rejected; a new attempt is
+a new record or a new version. Only the owner can bring a withdrawn record back, to the
+state it had before, with a reason.
+
+**Claim status.** Separately from its state, every Item's First look text and every Result
+carries a claim status: `source's claim, not yet checked` or `verified against source`.
+Code sets `verified against source` when a checker run confirms the claim against the
+stored copy of its source. An Item or Result may be published while still the source's
+claim, and the site shows that label beside it. A letter grade is computed only from
+results verified against their source.
+
+## Links between records
+
+Every ID a record points to must belong to an existing record. A record in `published`
+state may point only to records that are `published` or `replaced`, with these exceptions:
+Run, Source and Person records, which a published record may name before they have pages
+of their own, and the skipped-item list of a Scan, which names items never shown. The
+build fails when either rule is broken.
 
 ## What each kind holds
 
-Key fields only; each kind's full schema is fixed in its requirement lines.
+Key fields beyond the common ones; each kind's full schema is fixed in its requirement
+lines and its code.
 
 **Source.** Name; address; channel type; read route (feed, sitemap, official interface,
 paid interface, or hand-in only); tier (primary, pointer, watch only); language and
-region; active or dropped, with the reason; the owner's approval.
+region; active or dropped, with the reason.
 
 **Item.** Source; address; title; authors (Person IDs); kind; language, and whether a
 translation was used; when the source published it and when it was found; the license the
-source states for reuse, or "unknown", which means link and never copy; a fingerprint of
-the exact text read; which parts of it were read (all, or named sections), so no sentence
-claims more than was read; the group of items reporting the same news, and whether this
-item is the primary one; and its First look text: a 1-line summary, an "affects you if"
-line, its topic area, a note in words on what kind of evidence it is, and the claim status.
+source states for reuse, or `unknown`, which means link and never copy anything beyond
+short quotes; a fingerprint of the exact text read and where the full copy is kept; which
+parts were read (all, or named sections), so no sentence claims more than was read; and
+its First look text with its claim status: a 1-line summary, an "affects you if" line, its
+topic area and a note in words on what kind of evidence it is. A group of items reporting
+the same news has exactly 1 primary item, and the group's member list is kept on that
+primary item only.
 
 **Scan.** Date; the ranked entries (Item ID, rank, the rule or judgment that placed it);
 skipped items with a 1-line reason each; the Watching list; coverage counts (sources
 scanned, items read, items skipped by reason).
 
 **Method.** Name; topic area; the methods it builds on and the methods built on it; the
-1-line answer and 1-paragraph summary; the current grade card version; its address once
-published; charts used on its page.
+1-line answer and 1-paragraph summary; the current grade card pointer; its address and
+past addresses; charts used on its page.
 
-**Fact sheet.** The item and the method; which reader run filled it; the fixed facts from
-the grading rubric (study design, comparison, sample, who measured, how many separate
-groups, scale, tool or model version, dates, the numbers); each fact with a pointer to its
-place in the source: the section, and the exact words it rests on. The 2 readers on a
-graded item write 2 separate fact sheets, so they never write the same file.
+**Fact sheet.** The item and the method; the reader run that filled it; the facts the
+grading rubric asks for (study design, comparison, sample, who measured, how many separate
+groups, scale, tool or model version, dates, the numbers); and the facts needed by
+grading rules still under consideration: whether the study was randomized or registered
+in advance, whether an uncertainty range was given, the identity of each group that
+measured (authors, employers, funders, vendors), and tags for the kind of number
+(self-reported, survey, benchmark, possibly in a model's training data, results picked by
+the seller). Each fact has a pointer to its place in the source: the section, a short
+exact quote of at most 25 words, and the link.
 
 **Result.** The method and the item; the measure and its family (Speed, Quality, Cost,
 Scale, People); before, after and change, with units, as the source states them; what it
 was compared against; the sample; who measured; the setting: scale, the tool or model and
-its version, and the month it was measured; the uncertainty range when given; "Reported
-feeling" when it is a feeling, not a measurement; the claim status; the result it replaced,
-if any.
+its version, and the month it was measured; the uncertainty range when given; the tags for
+the kind of number; "Reported feeling" when it is a feeling; the claim status; the result
+it replaced, if any.
 
-**Grade card.** The method; the version number; when it was computed; the rule table
-version; the fact sheets and results it was computed from; the synthesis (each result side
-by side with its setting, and each agreement and disagreement named); both judges'
-answers, with which model answered; the computed lines (evidence letter, status, tested
-on, who measured, headline, can you repeat it, fits you if); when the sources were last
-checked, and whether newer data exists; its state.
+**Grade card.** The method; the version number; its inputs (fact sheets, results, the
+synthesis with each agreement and disagreement named, the readers' disagreements and the
+owner's rulings); the rule table version; both judges' answers, each with the model and
+model family that answered and whether it was sure; the computed lines (evidence letter,
+status, tested on, who measured, headline, can you repeat it, fits you if); when the
+sources were last checked, and whether newer data exists.
 
 **Timeline event.** The method; the event type (Origin, Adopted, Confirmed, Extended,
 Changed, Contradicted, Dropped); who, when and what; the source item; the grade card
-version before and after, when it changed the card.
+versions before and after, when it changed the card.
 
 **Person.** Name as they publish it; their public accounts and addresses, used to check
 that a reply really comes from them; for a leading voice, the route that listed them
-(track record or peer recognition) with its sourced evidence, their place on the list
-(candidate, listed, removed) and the owner's approval; which of their channels can be read
-within their terms.
+(track record or peer recognition) with its sourced evidence and their place on the list
+(candidate, listed, removed); which of their channels can be read within their terms;
+address and past addresses.
 
 **Prediction.** The person; the item holding their words; the exact words; when it was
-made; what would count as it coming true, and by when; when it is due to be checked.
+made; what would happen, by when, and what source would settle it, all recorded when the
+prediction is logged; when it is due to be checked.
 
 **Verdict.** What it rules on (a prediction, or an earlier grade card version); the ruling;
-the evidence items; the run that proposed it and the owner's approval; whether it is shown
-on the site.
+the evidence items; the run that proposed it and the owner's approval. A verdict on the
+site's own earlier grade card stays `approved` and is not published until the owner
+decides such verdicts are shown.
 
 **Piece.** Kind (explainer to start); title; body; the methods and items it draws on;
-charts used.
+charts used; address and past addresses.
 
 **Correction or reply.** The page and record it concerns; who sent it (a Person ID) and how
 that was checked; whether it is a correction, added context or a reply; what was done,
 with the owner's decision.
 
-**Term.** The plain-words explanation; the real name; the pages that use it.
+**Term.** The plain-words explanation; the real name; the pages that use it; address and
+past addresses.
 
-**Run.** Role; tool and model; instruction version; start and finish; usage; the records it
-read and wrote; outcome, including each check passed or failed and why; why it stopped,
-when it stopped early.
+**Run.** Role; tool, model and model family; instruction version; start and finish; usage;
+the records it read and wrote, each with its content fingerprint; outcome, including each
+check passed or failed and why; why it stopped, when it stopped early.
 
 **Charts on a page** (Method or Piece). For each chart: the source item, its license,
 whether it is copied with credit or redrawn from its numbers, and the credit line.
@@ -236,43 +370,45 @@ whether it is copied with credit or redrawn from its numbers, and the credit lin
 ## Where records go
 
 - **In the public repository:** every record, in every state.
-- **On the site:** only records in the `published` state, each with its data file at a
-  permanent address. Which addresses, and the plain-text copies, are set in `site-pages`
-  and `agent-readers`.
-- **Outside the repository:** full copies of other people's articles, kept so any claim can
-  be re-checked after a source changes or disappears. The Item keeps the fingerprint and a
-  pointer to the copy.
-- **Reader contact details** (email addresses of subscribers, commenters and people who
-  write in) are not held in these records; where they are kept is set in
+- **On the site:** records in the `published`, `replaced` and `withdrawn` states, each at a
+  permanent address with its data file. A replaced record is labeled "Replaced by" with a
+  link to what replaced it; a withdrawn record shows a short notice saying when and why it
+  was withdrawn. The page shapes and plain-text copies are set in `site-pages` and
+  `agent-readers`.
+- **In a separate private repository that holds only source copies:** the full copy of
+  every article read, kept so any claim can be re-checked after a source changes or
+  disappears. Each Item keeps the fingerprint and the copy's path there. The repository is
+  created when the first agent run needs it.
+- **Not in these records:** reader contact details (email addresses of subscribers,
+  commenters and people who write in); where they are kept is set in
   `comments-and-newsletter` and `people-and-replies`.
 
 ## Decisions & Alternatives
 
 | Decision | Chosen | Alternatives Considered | Rationale |
 |---|---|---|---|
-| File format | JSON for data records; Markdown with fields at the top for prose records | YAML for all; Markdown with fields for all | JSON is strict and the same in every tool, and the file served to agents is the record itself; YAML reads more easily but guesses types (a value like `no` can turn into false); prose reads better as Markdown |
-| ID scheme | Kind prefix plus 8 random characters, made by code, checked for clashes | Numbers in sequence; IDs from titles | Several agents create records at once without clashing, and an ID survives any rename |
-| History | A change list inside each record, plus git | Git history alone | Merging and tidying a repository's history can fold many changes into 1; the change list keeps every change's date and reason in the data the site and agents read |
-| Grade card changes | Each version is a new, never-edited record | Edit the card in place | Any card can be re-run and explained, and "what moved" is a comparison of 2 versions |
+| File format | JSON for data records; Markdown with a quoted-value YAML block for prose records | YAML for all; Markdown for all | JSON is strict and the same in every tool, and the file served to agents is the record itself; quoting every value in the prose records' YAML block removes YAML's type guessing |
+| ID scheme | Kind prefix plus 8 random lowercase characters, made by code, checked for clashes | Numbers in sequence; IDs from titles | Several agents create records at once without clashing, and an ID survives any rename |
+| History | A change list inside each record with old and new values, plus git | Git history alone | Squash merges fold many changes into 1; the change list keeps every change's date and reason in the data the site and agents read |
+| Grade card changes | Computed content frozen; each version a new record | Edit the card in place | Any card can be re-run and explained, and "what moved" is a comparison of 2 versions |
 | Synthesis | Held inside the grade card version | Its own record kind | It is computed for exactly 1 card version and read only with it |
-| Check results | Held in the checker's Run record | A Check record kind; a field on the checked record | The checker never writes another role's file, and every check is tied to the run that made it |
-| 2 readers | 2 separate Fact sheet records | 1 shared fact sheet | The readers never see or overwrite each other's answers |
-| Folder layout | 1 folder per kind; month subfolders for high-volume kinds | 1 flat folder per kind; folders by ID | Folders stay small enough to browse, and a build-time index finds any ID |
-| Deleting | Never; records are withdrawn with a reason | Delete records no longer needed | Nothing changes silently, and links to a record keep working |
+| Check results | Held in the checker's Run record, tied to content fingerprints | A Check record kind; a field on the checked record | The checker never writes another role's file, and a pass counts only for the exact content checked |
+| 2 readers | 2 separate Fact sheet records; owner rulings on the grade card | 1 shared fact sheet | The readers never see or overwrite each other's answers |
+| Folder layout | 1 folder per kind; UTC-month subfolders for high-volume kinds | 1 flat folder per kind; folders by ID | Folders stay small enough to browse, and file names alone find any ID |
+| Deleting | Never; withdrawn with a reason; only the owner removes private information, history included | Delete records no longer needed; remove from the site only | Nothing changes silently, links keep working, and private information left in public history is still public |
+| Changes to published records | A pending block inside the record | Edit in place; a draft copy as a second file | Readers keep seeing approved content, and the change waits in the same file with its own state |
+| Source copies | A separate private repository holding only the copies | The public repository; cloud file storage | The copies are other people's work, so they are never republished, while any run with access can reach them with history kept |
+| Facts for proposed grading rules | Stored now, rules decided in `grading` | Store only what the current rubric uses | Recording extra facts while reading is cheap; re-reading every source later is not |
+| Quotes in fact sheets | Short exact quotes with a link, for every source | A location pointer only when the license is unknown | The checker needs the exact words to catch a wrong claim, and short linked quotes are already allowed by the writing rules |
 
 ## Open Questions & Future Decisions
 
 ### Deferred
 
-1. **Where full source copies live.** Proposed: outside the repository, because they are
-   other people's work; the place is not yet chosen.
-2. **Facts proposed by the grading research.** The research on how other fields grade
-   evidence proposes grading each result row on its own, a tools line that shows the tools'
-   age, fixed tags for surveys, benchmarks and seller-picked results, recording who counts
-   as a separate group, and logging each prediction's terms in advance. Each needs facts
-   stored in these records; the rules that use them belong to `grading`.
-3. **Daily volume.** How many items, fact sheets and runs a day; it decides whether month
+1. **Daily volume.** How many items, fact sheets and runs a day; it decides whether month
    subfolders are enough.
+2. **The source-copies repository.** Its name, access and layout are set when the first
+   agent run needs it.
 
 ## References
 
