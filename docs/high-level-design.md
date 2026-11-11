@@ -50,10 +50,13 @@ sources that cover a focus the current sources miss.
 
 - **First look, every day.** New items from the sources are found, ranked and summarized
   the day they appear. Each is shown right away, labeled "First look" and marked as the
-  source's own claim, not yet checked, with its link. An item that does not meet the bar
-  for a graded page goes on a short Watching list: 1 line and a link.
+  source's own claim, not yet checked, with its link. An item that is not first-hand, not
+  yet described enough to understand, or known only from secondary reports goes on a
+  short Watching list: 1 line and a link.
 - **Graded pages, as evidence arrives.** A method gets its own page, with a grade card and
-  a timeline, when its best source passes the inclusion bar in the grading rubric. Its
+  a timeline, when a notable first-hand source from a leading company or person
+  describes it (the page rule in the grading rubric); a measured comparison is not needed
+  for a page, and the grade card says honestly how well it is proven. Its
   facts are read from each source, what all its sources say is synthesized into 1 picture,
   its grade is computed by written rules, it is checked
   claim by claim against the source, and the owner approves it before it appears. New
@@ -71,7 +74,7 @@ score, and a disagreement stays visible instead of being resolved by choosing a 
 ### Rules before models
 
 Wherever a written rule can decide, code decides: fetching, dropping exact repeats, the
-evidence grade, the inclusion bar, the first line of error checking, ranking by stated
+evidence grade, the page rule, the first line of error checking, ranking by stated
 criteria. A model reads, writes and answers only bounded questions a rule cannot. The same
 facts always give the same grade, and every grade can be explained and re-run.
 
@@ -156,14 +159,15 @@ Highest first; when 2 conflict, the higher one wins.
 | **Source** | A place the agents read: a blog, a feed, a channel, a person's public account |
 | **Item** | 1 thing a source published: a post, paper, talk, release or statement |
 | **First look** | The label on a newly found item: published the day it is found, as the source's own claim, not yet checked |
-| **Watching list** | New items that do not meet the bar for a graded page: 1 line and a link each |
+| **Watching list** | New items that are not first-hand, not yet described enough to understand, or known only from secondary reports: 1 line and a link each |
+| **Page rule** | A method gets a page when a notable first-hand source from a leading company or person describes real work in enough detail, in a dated, linked primary source; set in the grading rubric |
 | **Method** | A new system, method or technique for building software, shared first-hand by its builders. Its page carries the grade card |
 | **Focus** | 1 entry on the owner's list of what he cares about now, which the scan, ranking and dashboard put first |
 | **Grade card** | The card on a method page: evidence grade, status, who it was tested on, who measured it, measured results, whether it can be repeated, who it fits, and when it was checked |
 | **Synthesis** | Combining what several sources say about 1 method into 1 picture, including where they disagree, without averaging their numbers |
 | **Graded page** | A method page whose grade card has been computed, checked and approved |
 | **Topic area** | 1 of the broad subjects the site covers; each method belongs to 1 |
-| **Leading voice** | A person on the short list of people provably ahead of the field, whose statements are included even when they fail the inclusion bar |
+| **Leading voice** | A person on the short list of people provably ahead of the field, whose statements are included even when they are not descriptions of real work, such as predictions |
 | **Verdict** | A dated ruling on something left open: whether a prediction came true, or how an earlier grade held up |
 | **Role** | 1 kind of agent work (scout, reader, grader, writer, checker, tracker), written as instructions with file inputs and file outputs |
 | **Change-course signal** | A condition that, when it turns on, triggers a rethink of the system that day |
@@ -189,7 +193,7 @@ flowchart TD
     first --> check1[Checker]
     check1 --> scan[Daily scan]
     scan --> dash[Dashboard]
-    rank --> cand{"Passes the inclusion bar, or touches a covered method?"}
+    rank --> cand{"Passes the page rule, or touches a covered method?"}
     cand -->|yes| read[2 readers fill fact sheets apart]
     read --> synth["Synthesize what all sources say, including disagreements"]
     synth --> rule[Rule table computes the grade]
@@ -216,7 +220,7 @@ never a letter grade. The checker runs, and the day's scan and dashboard are bui
 pointing to its place in the source. The fact sheets from all of a method's sources are
 then synthesized into 1 picture: each result side by side with its setting, and every
 agreement and disagreement named. The grade is then computed: a rule table in code turns the facts into
-the grade, the status, the "who measured" label and the inclusion checks; 2 judges answer
+the grade, the status, the "who measured" label and the page checks; 2 judges answer
 the fixed questions a rule cannot; the owner approves. Any disagreement between the 2
 readers or the 2 judges goes to the owner. The writer drafts the page in layers, the
 checker matches every claim to the stored copy of its source, and the owner approves.
@@ -397,6 +401,9 @@ runs take more than the share of usage the owner set.
 
 ## Open Questions
 
+- **Notable, leading source.** Proposed: a primary-tier source on the source list from a
+  company or lab on that list, or a person on the leading-voices list; settled in
+  `grading` and `sources`.
 - **Focus as a record.** Proposed: each focus is saved as its own record kind, so every
   role can read it, and readers may later set their own.
 - **Daily volume and usage.** How many items about 120 sources produce a day, how many
