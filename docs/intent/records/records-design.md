@@ -36,7 +36,7 @@ pages](../../decisions/whole-system-shape.md)) and from the project's tenets:
 
 ## Record kinds
 
-15 kinds. Each has a short ID prefix used in its IDs.
+16 kinds. Each has a short ID prefix used in its IDs.
 
 | Kind | Prefix | What 1 record is |
 |---|---|---|
@@ -55,6 +55,7 @@ pages](../../decisions/whole-system-shape.md)) and from the project's tenets:
 | Correction or reply | `cor` | A request to correct a page or add context, and what was done |
 | Term | `trm` | 1 glossary entry |
 | Run | `run` | 1 agent run: role, tool, model, inputs, outputs, usage, outcome |
+| Focus | `fcs` | 1 entry on the owner's list of what he cares about now, which the scan, ranking and dashboard put first |
 
 Synthesis, the combining of what all of a method's sources say into 1 picture, is held
 inside the grade card version it feeds. Check results are held in the checker's Run
@@ -164,6 +165,7 @@ pending block's state and every content fingerprint.
 | Correction or reply | Request and sender check: the recording agent. Decision: the owner. The sender is named as a Person only when it is a person shown on the site replying about their own work; any other sender is "a reader", with no name or contact detail |
 | Term | Everything: writer |
 | Run | Everything: the run itself |
+| Focus | Everything: the owner's decisions only |
 
 Every write starts from a copy of the record. If the file changed since that copy was
 taken, the agent re-reads the latest copy and redoes its work on it, never copying its
@@ -255,6 +257,7 @@ States each kind may take:
 | Fact sheet | draft, checked, published, rejected, replaced, withdrawn |
 | Source, Method, Grade card, Timeline event, Person, Prediction, Verdict, Piece, Correction or reply, Term | draft, checked, waiting, approved, published, rejected, replaced, withdrawn |
 | Run | open, finished, stopped (a run is never on the site as a page; its record is public in the repository) |
+| Focus | approved, withdrawn (a focus is created approved by the owner's decision and is never on the public site) |
 
 A record's state alone decides whether the site shows it: `published` and `replaced`
 records are shown, and a `withdrawn` record is shown as a notice only if it was published
@@ -339,9 +342,17 @@ member becomes primary.
 skipped items with a 1-line reason each; the Watching list; coverage counts (sources
 scanned, items read, items skipped by reason).
 
-**Method.** Name; topic area; the methods it builds on and the methods built on it; the
-1-line answer and 1-paragraph summary; the current grade card pointer; its address and
-past addresses; charts used on its page.
+**Method.** Name; topic area; who is doing it; the methods it builds on and the methods
+built on it; the 1-line answer and 1-paragraph summary; how it works; what changed in how
+people work; how to apply it, as the source advises (the source's own guidance, labeled as
+theirs and pointing to where the source gives it; the site adds no advice of its own);
+where it is heading; the current grade card pointer; its address and past addresses;
+charts used on its page. Each of these passages points to the sources it rests on.
+
+**Focus.** The owner's wording; when it was set; whether it is active; the topic areas and
+methods it maps to. The scout and the ranking read active focuses to put matching items
+first, the dashboard shows the latest for each, and the scout proposes sources for a focus
+the current sources miss. A focus never appears on the public site.
 
 **Fact sheet.** The item and the method; the reader run that filled it; the facts the
 grading rubric asks for (study design, comparison, sample, who measured, how many separate
@@ -447,6 +458,8 @@ whether it is copied with credit or redrawn from its numbers, and the credit lin
    subfolders are enough.
 2. **The source-copies repository.** Its name, access and layout are set when the first
    agent run needs it.
+3. **Focus as a record kind.** Proposed, awaiting the owner's confirmation; readers may later
+   set focuses of their own, which would need their own kind or an owner field.
 
 ## References
 

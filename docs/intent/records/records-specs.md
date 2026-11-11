@@ -1,13 +1,13 @@
 # Records requirements
 
 Requirement lines for [the records design](records-design.md). "A record" means a record
-of any of the 15 kinds that design names, stored under `records/`. `[ ]` marks a
+of any of the 16 kinds that design names, stored under `records/`. `[ ]` marks a
 requirement not yet built.
 
 ## Kinds and files
 
 - [ ] **REC-KIND-001**: The system shall store every record as exactly 1 file under the `records/` folder, in the folder for its kind.
-- [ ] **REC-KIND-002**: The system shall support exactly these record kinds and ID prefixes: Source `src`, Item `itm`, Scan `scn`, Method `mth`, Fact sheet `fct`, Result `res`, Grade card `grd`, Timeline event `evt`, Person `per`, Prediction `prd`, Verdict `vrd`, Piece `pce`, Correction or reply `cor`, Term `trm`, Run `run`.
+- [ ] **REC-KIND-002**: The system shall support exactly these record kinds and ID prefixes: Source `src`, Item `itm`, Scan `scn`, Method `mth`, Fact sheet `fct`, Result `res`, Grade card `grd`, Timeline event `evt`, Person `per`, Prediction `prd`, Verdict `vrd`, Piece `pce`, Correction or reply `cor`, Term `trm`, Run `run`, Focus `fcs`.
 - [ ] **REC-FILE-001**: The system shall store records of every kind except Piece and Term as JSON files.
 - [ ] **REC-FILE-002**: The system shall store Piece and Term records as Markdown files whose top block of fields is YAML in which every value is a quoted string, a number, or a list or map made only of these, written in block form with no YAML anchors or references.
 - [ ] **REC-FILE-003**: The system shall store Item, Fact sheet, Scan and Run records in a subfolder of their kind's folder named for the UTC month (`YYYY-MM`) in which the record was created, and records of all other kinds directly in their kind's folder.
@@ -92,6 +92,7 @@ requirement not yet built.
 - [ ] **REC-STATE-009**: When the owner restores a record that was withdrawn because it was merged, the system shall clear its `merged_into` and remove its addresses from the other record's past addresses.
 - [ ] **REC-STATE-010**: The system shall move records between states only in code and only along these moves: `draft` to `checked` (citing a passing checker Run); `checked` to `waiting`; `waiting` to `approved` or `rejected` (recording the owner's decision); `approved` to `published`; `published` to `replaced`; any state to `withdrawn` (on the owner's decision, or on a merge); `withdrawn` back under REC-STATE-006; and, for Item, Scan, Result and Fact sheet records only, `checked` straight to `published`.
 - [ ] **REC-STATE-011**: The system shall move a Source, Method, Grade card, Timeline event, Person, Prediction, Verdict, Piece, Correction or reply, or Term record to `published` only from `approved`.
+- [ ] **REC-STATE-012**: The system shall allow Focus records only the states `approved` and `withdrawn`, shall create a Focus record directly in `approved` and only on the owner's decision, and shall never show a Focus record on the public site.
 
 ## Checks
 
@@ -134,9 +135,13 @@ requirement not yet built.
 - [ ] **REC-RES-002**: The system shall store every Result record's numbers exactly as the source states them, with their units, and never a value computed by the system.
 - [ ] **REC-PRED-001**: The system shall store on every Prediction record what would happen, by when, and which source would settle it, and shall not change those terms once the Prediction is published, except under REC-REMOVE-001.
 - [ ] **REC-PERSON-001**: The system shall store on every Person record the public web accounts and addresses (never an email address) used to confirm that a reply comes from that person, and which of their channels can be read within their terms.
+- [ ] **REC-METHOD-001**: The system shall store on every Method record, each with pointers to the sources it rests on: who is doing it, how it works, what changed in how people work, how to apply it as the source advises (labeled as the source's guidance), and where it is heading.
+- [ ] **REC-METHOD-002**: The system shall hold in a Method record's "how to apply it" field only guidance the cited source gives, never guidance written by the system.
 - [ ] **REC-COR-001**: The system shall name the sender of a Correction or reply record as a Person only when the sender is a person shown on the site replying about their own work; any other sender is recorded as "a reader", with no name or contact detail in the record.
 - [ ] **REC-RUN-001**: The system shall store on every Run record its role, tool, model and model family, instruction version, start and finish times, usage, the records it read and wrote with their content fingerprints, its outcome, and why it stopped when it stopped early.
 - [ ] **REC-CHART-001**: The system shall store, for each chart on a Method or Piece record, its source item, its license, whether it is copied with credit or redrawn from its numbers, and its credit line.
+- [ ] **REC-FOCUS-001**: The system shall store on every Focus record the owner's wording, when it was set, whether it is active, and the topic areas and Method IDs it maps to.
+- [ ] **REC-FOCUS-002**: The system shall write and change Focus records only on the owner's decision, never on an agent's own judgment.
 
 ## Where records go
 
