@@ -22,11 +22,13 @@ Consult these guides before working on related tasks:
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
 ## Project: AI Method (aimethod.dev)
-Research site: finds research and practice on building software with AI, grades how well each method or claim is proven, tracks what leading voices say, and links every source. It does not review or rank products, and it offers no consulting. Design: docs/high-level-design.md. Editorial rules: docs/editorial/.
+This repository belongs to AI Scale Dev, the parent brand, which also owns the aiscale.dev address and the owner's X account. AI Method is AI Scale Dev's first project and the only work in this repository today. The parent may later offer consulting and have its own site; none is being built now.
+Rules for AI Method only: no consulting or selling on AI Method's pages; everything public; every change goes through LID. When work on a parent-brand site starts, it gets its own folder with its own notes, and LID is then narrowed to AI Method's folders (LID's scoped mode). Until then LID stays in full mode, because AI Method is the only work here.
+AI Method is a research site: finds research and practice on building software with AI, grades how well each method or claim is proven, tracks what leading voices say, and links every source. It does not review or rank products, and it offers no consulting. Design: docs/high-level-design.md. Editorial rules: docs/editorial/.
 Astro static, MDX, Tailwind.
 Built in public: the repository holds everything, drafts and working records included. Never commit keys or passwords. Nothing is published on the site before public launch.
 Deploy: Vercel. The site answers at https://ai-scale-dev.vercel.app.
-Domains (as of Nov 14 2026): aimethod.dev is the main address and aiscale.dev is kept to point to the same site. Both are registered at Porkbun, use Porkbun's nameservers and show its placeholder page; neither is connected to the Vercel site yet.
+Domains (as of Nov 14 2026): aimethod.dev is AI Method's address. aiscale.dev is the parent brand's address, not a forward to AI Method; what it shows is not decided. Both are registered at Porkbun, use Porkbun's nameservers and show its placeholder page; neither is connected to the Vercel site yet.
 The earlier Cloudflare DNS setup for aiscale.dev, its Vercel DNS targets and its email forwarding are not in effect. Email forwarding needs to be set up again when the domains are connected.
 Brand display name: "AI Method". Address: aimethod.dev. Repo: AIScaleDev (name unchanged). Local: ~/code/aiscaledev. The site's code (title, logo) still shows "AI Scale Dev" until the site-pages redesign.
 The blog collection (src/content/blog/, schema in src/content.config.ts) holds no posts. The existing pages are redesigned under the site-pages design.
