@@ -30,7 +30,7 @@ Built in public: the repository holds everything, drafts and working records inc
 Deploy: Vercel. The site answers at https://ai-scale-dev.vercel.app.
 Domains (as of Nov 14 2026): aimethod.dev is AI Method's address. aiscale.dev is the parent brand's address, not a forward to AI Method; what it shows is not decided. Both are registered at Porkbun, use Porkbun's nameservers and show its placeholder page; neither is connected to the Vercel site yet.
 The earlier Cloudflare DNS setup for aiscale.dev, its Vercel DNS targets and its email forwarding are not in effect. Email forwarding needs to be set up again when the domains are connected.
-Brand display name: "AI Method". Address: aimethod.dev. Repo: AIScaleDev (name unchanged). Local: ~/code/aiscaledev. The site's code (title, logo) still shows "AI Scale Dev" until the site-pages redesign.
+Brand display name: "AI Method". Address: aimethod.dev. Repo: AIScaleDev (name unchanged). Local: ~/code/aiscaledev. The site's code shows the name "AI Method" (site title, header, page titles, link-preview image); the pages' content is still the old template text until the site-pages redesign.
 The blog collection (src/content/blog/, schema in src/content.config.ts) holds no posts. The existing pages are redesigned under the site-pages design.
 Astro-only — the /contact form uses vanilla JS (no React), posting to Web3Forms.
 Contact form: /contact. Access key placeholder in src/consts.ts (WEB3FORMS_ACCESS_KEY); form self-disables until a real key is set.
