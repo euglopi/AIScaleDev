@@ -7,7 +7,7 @@ prefix: REC
 
 ## Context and Design Philosophy
 
-Everything AI Scale Dev knows is held in records: the sources it reads, the items they
+Everything AI Method knows is held in records: the sources it reads, the items they
 publish, each day's scan, the methods it covers, what each source says about a method,
 the grade cards computed from that, what happens next, the people it quotes, the pieces
 it publishes, the replies it receives, its glossary and the log of every agent run. Every

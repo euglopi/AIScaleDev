@@ -1,6 +1,6 @@
 # Grading rubric
 
-Every method AI Scale Dev covers gets 1 grade card. The card tells a reader, in under 10
+Every method AI Method covers gets 1 grade card. The card tells a reader, in under 10
 seconds, how much to trust the method, whether it is proven, who it was tested on, what it
 measurably changed and how fresh the information is. Every line on the card links to its
 source.

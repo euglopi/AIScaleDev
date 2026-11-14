@@ -6,7 +6,7 @@ node: high-level-design
 
 ## Context
 
-AI Scale Dev keeps a growing set of records: the sources it reads, each item a source
+AI Method keeps a growing set of records: the sources it reads, each item a source
 publishes, the methods it covers, their grade cards and measured results, timeline events,
 leading voices and their predictions, pieces, corrections and the log of every agent run.
 Agents write these records every day; the owner approves the ones that need approval; and

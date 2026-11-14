@@ -21,15 +21,14 @@ Consult these guides before working on related tasks:
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
-## Project: AIScale.dev
+## Project: AI Method (aimethod.dev)
 Research site: finds research and practice on building software with AI, grades how well each method or claim is proven, tracks what leading voices say, and links every source. It does not review or rank products, and it offers no consulting. Design: docs/high-level-design.md. Editorial rules: docs/editorial/.
 Astro static, MDX, Tailwind.
 Built in public: the repository holds everything, drafts and working records included. Never commit keys or passwords. Nothing is published on the site before public launch.
-Deploy: Vercel. DNS: Cloudflare, DNS-only (grey cloud, no proxy) so Vercel terminates SSL. With grey cloud the Cloudflare SSL/TLS mode does not apply. Went live at https://aiscale.dev on Jul 28 2026 (Let's Encrypt cert via Vercel). As of Nov 11 2026 the domain is being restored at the registrar.
-Apex aiscale.dev belongs to the blog. The Short.io link shortener moves to a subdomain (decided Jul 28 2026).
-Vercel DNS targets (Jul 28 2026): CNAME @ -> e364c7306bdf607c.vercel-dns-017.com and CNAME www -> e364c7306bdf607c.vercel-dns-017.com, both proxy off. www redirects to apex (308) in Vercel.
-Never touch the 3 route*.mx.cloudflare.net MX records or the v=spf1 TXT record: that is live email forwarding.
-Brand display name: "AI Scale Dev" (with spaces). Domain/URL stays aiscale.dev. Repo: AIScaleDev. Local: ~/code/aiscaledev.
+Deploy: Vercel. The site answers at https://ai-scale-dev.vercel.app.
+Domains (as of Nov 14 2026): aimethod.dev is the main address and aiscale.dev is kept to point to the same site. Both are registered at Porkbun, use Porkbun's nameservers and show its placeholder page; neither is connected to the Vercel site yet.
+The earlier Cloudflare DNS setup for aiscale.dev, its Vercel DNS targets and its email forwarding are not in effect. Email forwarding needs to be set up again when the domains are connected.
+Brand display name: "AI Method". Address: aimethod.dev. Repo: AIScaleDev (name unchanged). Local: ~/code/aiscaledev. The site's code (title, logo) still shows "AI Scale Dev" until the site-pages redesign.
 The blog collection (src/content/blog/, schema in src/content.config.ts) holds no posts. The existing pages are redesigned under the site-pages design.
 Astro-only — the /contact form uses vanilla JS (no React), posting to Web3Forms.
 Contact form: /contact. Access key placeholder in src/consts.ts (WEB3FORMS_ACCESS_KEY); form self-disables until a real key is set.

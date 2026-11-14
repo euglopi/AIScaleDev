@@ -1,4 +1,4 @@
-# High-Level Design: AI Scale Dev
+# High-Level Design: AI Method
 
 ## Problem
 
@@ -11,7 +11,7 @@ proof is, rarely link every claim to its source, and go stale without saying so.
 
 ## Approach
 
-AI Scale Dev (aiscale.dev) has 1 mission: find the best research and practice from the
+AI Method (aimethod.dev) has 1 mission: find the best research and practice from the
 people changing software engineering, synthesize it into 1 clear picture, grade how well
 each method is proven, and deliver it in plain words with every source linked, so
 engineers learn faster and choose better. It also tracks what leading voices say. It does
