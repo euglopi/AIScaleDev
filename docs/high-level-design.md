@@ -11,7 +11,8 @@ proof is, rarely link every claim to its source, and go stale without saying so.
 
 ## Approach
 
-AI Method (aimethod.dev) has 1 mission: find the best research and practice from the
+AI Method is a project of AI Scale Dev, the parent brand, and its pages say plainly who
+runs it. AI Method (aimethod.dev) has 1 mission: find the best research and practice from the
 people changing software engineering, synthesize it into 1 clear picture, grade how well
 each method is proven, and deliver it in plain words with every source linked, so
 engineers learn faster and choose better. It also tracks what leading voices say. It does
@@ -132,7 +133,7 @@ the MVP.
 
 - **Reviewing or ranking products.** Tools appear only as evidence for methods; there are
   no tool pages.
-- **Consulting or selling services.**
+- **Consulting or selling services on AI Method's pages.**
 - **A public benchmark that ranks AI coding tools or developers.**
 - **Advice of our own.** Pages report what sources show and do; guidance on applying a
   method is the source's, labeled as theirs, and the site adds none of its own.
