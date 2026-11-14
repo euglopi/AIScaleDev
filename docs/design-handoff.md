@@ -1,7 +1,7 @@
 # Design handoff prompt (Claude Design -> Claude Code -> Astro)
 
 Paste the block below into claude.ai/design at the start of a design session for
-aiscale.dev. It tells the designer what shape the output has to be in so it can be
+aimethod.dev. It tells the designer what shape the output has to be in so it can be
 implemented in this repo without a rewrite.
 
 Keep it in sync with `astro.config.mjs`, `src/styles/global.css`, and AGENTS.md when
@@ -9,7 +9,7 @@ the stack changes.
 
 ---
 
-You are designing for aiscale.dev, a static Astro research site that grades how well
+You are designing for aimethod.dev, a static Astro research site that grades how well
 methods for building software with AI are proven, with every source linked. Your
 output will be implemented by Claude Code directly into the repo, so it has to hand off
 cleanly. Follow these rules.
@@ -88,7 +88,7 @@ cleanly. Follow these rules.
   only (sm 640, md 768, lg 1024, xl 1280). The reading column stays 720 px max.
 - **Light mode only** unless dark mode is explicitly requested. If dark is in scope, use
   `prefers-color-scheme` with paired tokens rather than duplicated classes.
-- **Real copy, never lorem ipsum.** Brand name is "AI Scale Dev". Nav is Blog, About,
+- **Real copy, never lorem ipsum.** Brand name is "AI Method". The site's code still shows the old name "AI Scale Dev" until the site-pages redesign. Nav is Blog, About,
   Contact. Voice: "we", plain words first, every claim linked to its source, following
   `docs/editorial/writing-rules.md`. The site grades methods, never products.
 - **Do not invent routes.** Every screen maps to a route listed above.

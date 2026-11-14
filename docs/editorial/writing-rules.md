@@ -1,6 +1,6 @@
 # Writing rules
 
-Rules for everything AI Scale Dev writes: summaries, First look items, graded pages,
+Rules for everything AI Method writes: summaries, First look items, graded pages,
 explainers and statements by leading voices. They apply to agents and people alike, and
 the checker enforces the ones code can test.
 
