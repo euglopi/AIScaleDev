@@ -10,7 +10,7 @@ const background = Buffer.from(`
   <rect width="${W}" height="${H}" fill="#0f1219" />
   <rect x="0" y="0" width="${W}" height="6" fill="#2337ff" />
   <text x="80" y="300" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
-        font-size="88" font-weight="700" fill="#ffffff">AI Scale Dev</text>
+        font-size="88" font-weight="700" fill="#ffffff">AI Method</text>
   <text x="80" y="372" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
         font-size="36" fill="#8f9bb8">Building AI that holds up in production.</text>
 </svg>`);
